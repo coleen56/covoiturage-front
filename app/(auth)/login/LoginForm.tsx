@@ -6,6 +6,7 @@ import {useActionState} from "react";
 import { loginAction, ActionState } from "./actions";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import SuccessAlert from "@/components/ui/SuccessAlert";
+import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = { title: 'Connexion' }
 
@@ -34,7 +35,7 @@ export default function LoginForm() {
                     <a className='mt-2 text-sm underline' href={"#"}>Mot de passe oublié ?</a>
                 </div>
                 <div className='flex flex-row items-center justify-between w-fit mt-4 space-x-6'>
-                    <button type='submit' className='mt-5 bg-black text-white px-4 py-1 rounded-md hover:cursor-pointer'>Login</button>
+                    <Button theme={"dark"} label={"Login"} type={"submit"}/>
                     <Link type='button'
                           className='mt-5 bg-white text-black border hover:bg-neutral-700 hover:text-white hover:cursor-pointer border-black px-4 py-1 rounded-md'
                           href={"/register"}>Register</Link>

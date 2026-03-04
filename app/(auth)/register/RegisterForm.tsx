@@ -1,6 +1,6 @@
 'use client'
 
-import { registerAction } from "./action";
+import { registerAction } from "./actions";
 import {useActionState} from "react";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import SuccessAlert from "@/components/ui/SuccessAlert";

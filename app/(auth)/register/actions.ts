@@ -10,15 +10,22 @@ export async function registerAction(prevState: ActionState,formData: FormData) 
     const password = formData.get('password') as string
     const confirmPassword = formData.get('password-conf') as string
 
-    if(!email || !password) {
+    // verification de complétion des 3 champs obligatoires
+    if(!email || !password || !confirmPassword) {
         return { error: 'Veuillez remplir tous les champs' }
     }
 
+    // verifie que les deux champs password sont les mêmes
     if (password !== confirmPassword) {
         return { error: 'Les mots de passe ne correspondent pas' }
     }
 
-    // action.ts
+    // verification des conditions du mot de passe
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if(!passwordRegex.test(password)) {
+        return { error: 'Le mot de passe doit contenir au moins : 8 caractères, 1 lettre minuscule, 1 lettre majuscule, 1 chiffre.' }
+    }
+    
     try {
         const result: RegisterResponse = await registerUser({ email, password })
         return { success: result.message }
