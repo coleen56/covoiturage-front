@@ -1,18 +1,22 @@
 import { auth } from "./auth";
+import logoutAction from "@/app/(auth)/(logout)/actions";
+import {cookies} from "next/headers";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL  // url backend
 const PUBLIC_ROUTES = new Set(['/login', '/api/register']);
 
 export async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T> {
     // vérifie validité du token avant chaque requête SAUF sur les routes publiques
-    if (!PUBLIC_ROUTES.has(endpoint) && !auth.isTokenValid()) {
-        auth.logout();
+    const validToken = await auth.isTokenValid();
+    if (!PUBLIC_ROUTES.has(endpoint) && !validToken) {
+        await logoutAction();
         throw new Error('Session expirée');
     }
 
+    const token = await auth.getServerToken();
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${auth.getToken()}`,
+        'Authorization': `Bearer ${token}`,
         ...options?.headers
     }
 

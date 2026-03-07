@@ -1,9 +1,28 @@
+export interface Profile {
+    user: User
+    car: Car
+}
+
+export interface Car {
+    model: string
+    seats: number
+    licencePlate: string
+    manufacturer: Manufacturer
+    description: string
+}
+
+export interface Manufacturer {
+    name: string
+}
+
 export interface User {
     id: number
     email: string
     firstname: string | null
     lastname: string | null
     phone: string | null
+    registrationDatetime: string | null
+    accountStatus: string | null
 }
 
 export interface Trip {
@@ -13,8 +32,19 @@ export interface Trip {
     seats: number
     isCancelled: boolean
     driver: User
-    departure: string | null
-    arrival: string | null
+    departure: Address | null
+    arrival: Address | null
+}
+
+export interface Address {
+    number: string
+    streetname: string
+    city: City
+}
+
+export interface City {
+    name: string
+    zipCode: string
 }
 
 export interface Booking {

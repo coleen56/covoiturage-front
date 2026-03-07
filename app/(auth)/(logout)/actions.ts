@@ -1,10 +1,10 @@
 'use server'
 
-import {auth} from '@/lib/auth';
 import {redirect} from "next/navigation";
+import {cookies} from "next/headers";
 
 export default async function logoutAction() {
-    console.log("Logged out");
-    await auth.logout()
+    const cookieStore = await cookies()
+    cookieStore.delete('jwt_token')
     redirect('/login')
 }
