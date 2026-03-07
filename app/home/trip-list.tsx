@@ -1,5 +1,5 @@
 import TripCard from "@/app/home/trip-card";
-import {getTripsAsPassengers} from "@/lib/trips";
+import {getTripsAsPassengers} from "@/lib/carpool";
 import Link from "next/link";
 import {FaCar} from "react-icons/fa";
 

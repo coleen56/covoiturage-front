@@ -1,6 +1,5 @@
 import { auth } from "./auth";
 import logoutAction from "@/app/(auth)/(logout)/actions";
-import {cookies} from "next/headers";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL  // url backend
 const PUBLIC_ROUTES = new Set(['/login', '/api/register']);

@@ -1,4 +1,5 @@
-// lib/auth.ts
+
+
 import {fetchApi} from './api'
 import {AuthCredentials, AuthResponse, RegisterResponse} from '@/types/auth'
 import {cookies} from 'next/headers'

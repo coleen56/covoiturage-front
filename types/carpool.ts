@@ -1,8 +1,3 @@
-export interface Profile {
-    user: User
-    car: Car
-}
-
 export interface Car {
     model: string
     seats: number
@@ -12,6 +7,7 @@ export interface Car {
 }
 
 export interface Manufacturer {
+    id: number
     name: string
 }
 
@@ -23,6 +19,7 @@ export interface User {
     phone: string | null
     registrationDatetime: string | null
     accountStatus: string | null
+    car: Car
 }
 
 export interface Trip {

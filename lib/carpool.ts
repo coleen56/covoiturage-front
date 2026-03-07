@@ -1,6 +1,6 @@
 import {fetchApi} from "@/lib/api";
 import {auth} from "@/lib/auth";
-import {Booking, Car, User} from "@/types/carpool";
+import {Booking, Car, Manufacturer, User} from "@/types/carpool";
 
 export async function getTripsAsPassengers(): Promise<Array<Booking>> {
     const userId = await auth.getCurrentUserIdServer();
@@ -11,9 +11,10 @@ export async function getTripsAsPassengers(): Promise<Array<Booking>> {
     return result;
 }
 
-export async function getUserCar(): Promise<Car>  {
-    const userId = await auth.getCurrentUserIdServer();
-    const result = await fetchApi<Array<Booking>>(`/api/persons/${userId}/trips-passenger`, {
+export async function getCarManufacturer(query: string): Promise<Manufacturer[]> {
+    const result = await fetchApi<Array<Manufacturer>>(`/api/brands?name=${query}`, {
         method: 'GET',
     });
+    console.log('result', result);
+    return result;
 }
