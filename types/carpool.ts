@@ -11,7 +11,7 @@ export interface Manufacturer {
     name: string
 }
 
-export interface User {
+export interface User extends Profile{
     id: number
     email: string
     firstname: string | null
@@ -20,6 +20,14 @@ export interface User {
     registrationDatetime: string | null
     accountStatus: string | null
     car: Car
+}
+
+export interface Profile {
+    id: number
+    email: string
+    firstname: string | null
+    lastname: string | null
+    phone: string | null
 }
 
 export interface Trip {

@@ -30,7 +30,7 @@ export default function ManufacturerInput({value, onSelect}: Readonly<Manufactur
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Marque de votre voiture"
-                className="block w-full rounded-md border py-1.5 px-3 text-sm text-black"
+                className="block w-full rounded-md border py-1.5 px-3 text-sm text-black mt-2"
             />
             {suggestions.length > 0 && (
                 <ul className="absolute z-10 w-full bg-white border rounded-md shadow mt-1">

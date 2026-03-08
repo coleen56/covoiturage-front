@@ -15,6 +15,7 @@ export interface RegisterResponse {
     }
 }
 
-// export interface ApiResponse {
-//
-// }
+export interface ApiResponse {
+    error?: string
+    success?: string
+}
