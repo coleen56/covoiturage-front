@@ -1,4 +1,5 @@
 export interface Car {
+    id: number
     model: string
     seats: number
     licencePlate: string
@@ -8,7 +9,7 @@ export interface Car {
 
 export interface Manufacturer {
     id: number
-    name: string
+    name?: string
 }
 
 export interface User extends Profile{

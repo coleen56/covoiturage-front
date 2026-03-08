@@ -1,4 +1,4 @@
-import TripCard from "@/app/home/trip-card";
+import TripCard from "@/app/(private)/home/trip-card";
 import {getTripsAsPassengers} from "@/lib/carpool";
 import Link from "next/link";
 import {FaCar} from "react-icons/fa";

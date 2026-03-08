@@ -13,13 +13,17 @@ function isTokenExpired(token: string): boolean {
 }
 
 export function proxy(req: NextRequest) {
+    const token = req.cookies.get('jwt_token')?.value;
+
     const { pathname } = req.nextUrl;
 
     if (PUBLIC_ROUTES.some(route => pathname.startsWith(route))) {
+        // si user authentifié, on redirige toute requête vers /login ou /register à la page d'accueil
+        if(token && !isTokenExpired(token)) {
+            return NextResponse.redirect(new URL('/home', req.url))
+        }
         return NextResponse.next();
     }
-
-    const token = req.cookies.get('jwt_token')?.value;
 
     if (!token || isTokenExpired(token)) {
         return NextResponse.redirect(new URL('/login', req.url));

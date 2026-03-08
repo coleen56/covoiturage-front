@@ -1,14 +1,12 @@
-import TripList from "@/app/home/trip-list";
 import PageTitle from "@/components/ui/PageTitle";
 import Main from "@/components/ui/Main";
 
-export default function HomePage() {
+export default function Search() {
     return (
         <Main>
             <PageTitle>
-                Bienvenue !
+                Rechercher un trajet
             </PageTitle>
-            <TripList />
         </Main>
     )
 }

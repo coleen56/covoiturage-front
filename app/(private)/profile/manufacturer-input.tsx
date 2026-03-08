@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Manufacturer} from "@/types/carpool";
-import {getManufacturers} from "@/app/profile/actions";
+import {getManufacturers} from "@/app/(private)/profile/actions";
 
 interface ManufacturerInputProps {
     value: string

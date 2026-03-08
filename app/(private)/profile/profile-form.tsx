@@ -1,13 +1,13 @@
 'use client'
 
 import {User} from "@/types/carpool";
-import InputGroup from "@/app/profile/input-group";
+import InputGroup from "@/app/(private)/profile/input-group";
 import React, {startTransition, useActionState, useState} from "react";
-import ManufacturerInput from "@/app/profile/manufacturer-input";
-import CarDescInput from "@/app/profile/car-desc-input";
+import ManufacturerInput from "@/app/(private)/profile/manufacturer-input";
+import CarDescInput from "@/app/(private)/profile/car-desc-input";
 import Button from "@/components/ui/Button";
 import {ActionResult} from "next/dist/shared/lib/app-router-types";
-import {ProfileFormData, saveNewProfile} from "@/app/profile/actions";
+import {ProfileFormData, saveNewProfile} from "@/app/(private)/profile/actions";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import SuccessAlert from "@/components/ui/SuccessAlert";
 
@@ -29,6 +29,7 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
         firstname: user.firstname ?? '',
         lastname: user.lastname ?? '',
         phone: user.phone ?? '',
+        car_id: user.car?.id ?? null,
         car_model: user.car?.model ?? '',
         car_seats: user.car?.seats ?? 0,
         car_licence_plate: user.car?.licencePlate ?? '',
@@ -67,7 +68,7 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
                 <InputGroup label={"Téléphone"} value={formData.phone} name={"phone"} id={"phone"} type={"phone"} placeholder={"Entrez votre téléphone"} onChange={handleChange} />
                 <hr/>
                 <InputGroup label={"Modèle de voiture"} value={formData.car_model} name={"car_model"} id={"car_model"} type={"text"} placeholder={"Modèle de votre voiture"} onChange={handleChange} />
-                <InputGroup label={"Nombre de sièges"} value={formData.car_seats.toString()} name={"car_seats"} id={"car_seats"} type={"number"} placeholder={"Nombre de sièges"} min={2} max={12} step={1} onChange={handleChange} />
+                <InputGroup label={"Nombre de sièges"} value={formData.car_seats.toString()} name={"car_seats"} id={"car_seats"} type={"number"} placeholder={"Nombre de sièges"} min={0} max={12} step={1} onChange={handleChange} />
                 <InputGroup label={"Immatriculation"} value={formData.car_licence_plate} name={"car_licence_plate"} id={"car_licence_plate"} type={"text"} placeholder={"Immatriculation de votre voiture"} onChange={handleChange} />
                 <ManufacturerInput value={formData.car_manufacturer_name}
                        onSelect={(id, name) => setFormData(prev => ({
