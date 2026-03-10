@@ -4,7 +4,7 @@ import logoutAction from "@/app/(auth)/(logout)/actions";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL  // url backend
 const PUBLIC_ROUTES = new Set(['/login', '/api/register']);
 
-export async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T> {
+export async function fetchApi<T>(endpoint: string, options?: RequestInit, baseUrl?: string): Promise<T> {
     // vérifie validité du token avant chaque requête SAUF sur les routes publiques
     const validToken = await auth.isTokenValid();
     if (!PUBLIC_ROUTES.has(endpoint) && !validToken) {
@@ -19,7 +19,10 @@ export async function fetchApi<T>(endpoint: string, options?: RequestInit): Prom
         ...options?.headers
     }
 
-    const res = await fetch(`${BASE_URL}${endpoint}`, {
+    const url = baseUrl ? baseUrl + endpoint : BASE_URL + endpoint;
+    console.log(url)
+
+    const res = await fetch(url, {
         ...options,
         headers,
     });

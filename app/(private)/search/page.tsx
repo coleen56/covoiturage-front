@@ -1,5 +1,6 @@
 import PageTitle from "@/components/ui/PageTitle";
 import Main from "@/components/ui/Main";
+import SearchTripForm from "@/app/(private)/search/search-trip-form";
 
 export default function Search() {
     return (
@@ -7,6 +8,7 @@ export default function Search() {
             <PageTitle>
                 Rechercher un trajet
             </PageTitle>
+            <SearchTripForm />
         </Main>
     )
 }

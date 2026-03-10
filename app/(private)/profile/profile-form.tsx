@@ -1,7 +1,7 @@
 'use client'
 
 import {User} from "@/types/carpool";
-import InputGroup from "@/app/(private)/profile/input-group";
+import InputGroup from "@/components/ui/input-group";
 import React, {startTransition, useActionState, useState} from "react";
 import ManufacturerInput from "@/app/(private)/profile/manufacturer-input";
 import CarDescInput from "@/app/(private)/profile/car-desc-input";

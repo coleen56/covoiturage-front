@@ -40,6 +40,7 @@ export interface Trip {
     driver: User
     departure: Address | null
     arrival: Address | null
+    bookings: Booking[]
 }
 
 export interface Address {
@@ -49,6 +50,7 @@ export interface Address {
 }
 
 export interface City {
+    id?: number
     name: string
     zipCode: string
 }
