@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import RegisterForm from './RegisterForm'
+import RegisterForm from './components/RegisterForm'
 
 export const metadata: Metadata = { title: 'Créer un compte' }
 

@@ -3,7 +3,7 @@
 import { Metadata } from 'next'
 import Link from "next/link";
 import {useActionState} from "react";
-import { loginAction, ActionState } from "./actions";
+import { loginAction, ActionState } from "../actions";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import SuccessAlert from "@/components/ui/SuccessAlert";
 import Button from "@/components/ui/Button";

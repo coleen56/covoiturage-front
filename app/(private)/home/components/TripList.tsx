@@ -1,4 +1,4 @@
-import TripCard from "@/app/(private)/home/trip-card";
+import BookingCard from "@/components/ui/BookingCard";
 import {getTripsAsPassengers} from "@/lib/carpool";
 import Link from "next/link";
 import {FaCar} from "react-icons/fa";
@@ -23,7 +23,7 @@ export default async function TripList() {
                             // on garde uniquement les trajets pas encore passés
                             .filter(booking => new Date(booking.trip.departureDatetime) > new Date())
                             .map(booking =>
-                                <TripCard key={booking.id} trip={booking.trip}/>
+                                <BookingCard key={booking.id} trip={booking.trip}/>
                             )}
                     </ul>
                 </>

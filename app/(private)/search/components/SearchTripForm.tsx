@@ -1,13 +1,17 @@
 'use client'
 
 import InputGroup from "@/components/ui/input-group";
-import React, {startTransition, useActionState, useState} from "react";
-import CityInput from "@/app/(private)/search/city-input";
-import {ActionResult} from "next/dist/shared/lib/app-router-types";
-import {getTripsFromFormData, TripFormData} from "@/app/(private)/search/actions";
+import React, {startTransition, useState} from "react";
+import CityInput from "@/app/(private)/search/components/CityInput";
+import {TripFormData} from "@/app/(private)/search/actions";
 import Button from "@/components/ui/Button";
 
-export default function SearchTripForm() {
+interface SearchTripFormProps {
+    dispatch: (data: TripFormData) => void
+    isPending: boolean
+}
+
+export default function SearchTripForm({dispatch, isPending}: Readonly<SearchTripFormProps>) {
     const [formData, setFormData] = useState({
         startingCity: "",
         arrivalCity: "",
@@ -17,11 +21,6 @@ export default function SearchTripForm() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
-
-    const [state, dispatch, isPending] = useActionState<ActionResult, TripFormData>(
-        async (_, data) => await getTripsFromFormData(data),
-        null
-    )
 
     function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault()

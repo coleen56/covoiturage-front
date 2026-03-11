@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import LoginForm from './LoginForm'
+import LoginForm from './components/LoginForm'
 
 export const metadata: Metadata = { title: 'Se connecter' }
 

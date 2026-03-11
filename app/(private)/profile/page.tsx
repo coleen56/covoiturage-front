@@ -1,7 +1,7 @@
 import PageTitle from "@/components/ui/PageTitle";
 import Main from "@/components/ui/Main";
 import {getProfile} from "@/app/(private)/profile/actions";
-import ProfileForm from "@/app/(private)/profile/profile-form";
+import ProfileForm from "@/app/(private)/profile/components/ProfileForm";
 
 export default async function ProfilePage() {
     const profile = await getProfile();

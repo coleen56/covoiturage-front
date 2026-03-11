@@ -9,7 +9,7 @@ interface TripCardProps {
     trip: Trip
 }
 
-export default function TripCard({trip}: Readonly<TripCardProps>) {
+export default function BookingCard({trip}: Readonly<TripCardProps>) {
     const date = new Date(trip.departureDatetime)
 
     const formattedDate = date.toLocaleString('fr-FR', {

@@ -3,8 +3,8 @@
 import {User} from "@/types/carpool";
 import InputGroup from "@/components/ui/input-group";
 import React, {startTransition, useActionState, useState} from "react";
-import ManufacturerInput from "@/app/(private)/profile/manufacturer-input";
-import CarDescInput from "@/app/(private)/profile/car-desc-input";
+import ManufacturerInput from "@/app/(private)/profile/components/ManufacturerInput";
+import CarDescInput from "@/app/(private)/profile/components/CarDescInput";
 import Button from "@/components/ui/Button";
 import {ActionResult} from "next/dist/shared/lib/app-router-types";
 import {ProfileFormData, saveNewProfile} from "@/app/(private)/profile/actions";

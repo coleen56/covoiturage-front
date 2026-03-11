@@ -1,4 +1,4 @@
-import TripList from "@/app/(private)/home/trip-list";
+import TripList from "@/app/(private)/home/components/TripList";
 import PageTitle from "@/components/ui/PageTitle";
 import Main from "@/components/ui/Main";
 

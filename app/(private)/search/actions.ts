@@ -1,6 +1,7 @@
 'use server'
 
-import {getCitiesByName, getTripsAsPassengers, searchForTrips} from "@/lib/carpool";
+import {getCitiesByName, searchForTrips} from "@/lib/carpool";
+import {Trip} from "@/types/carpool";
 
 export type TripFormData = {
     startingCity: string,
@@ -8,12 +9,20 @@ export type TripFormData = {
     tripDate: string
 }
 
+export type ActionResult =
+    | { trips: Trip[] }
+    | { error: string }
+    | null
+
 export async function getCities(query:string) {
     return await getCitiesByName(query);
 }
 
 export async function getTripsFromFormData(data: TripFormData) {
-    const trips = await searchForTrips(data);
-    console.log(trips);
-    return trips;
+    try {
+        const trips = await searchForTrips(data);
+        return {trips};
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : 'Une erreur est survenue' }
+    }
 }
