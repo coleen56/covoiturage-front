@@ -81,3 +81,9 @@ export async function searchForTrips(data: TripFormData): Promise<Trip[]> {
         }
     );
 }
+
+export async function getTripById(id: string): Promise<Trip> {
+    return await fetchApi<Trip>(`/api/trips/${id}`, {
+        method: 'GET',
+    })
+}

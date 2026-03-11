@@ -3,6 +3,7 @@
 import {ActionResult} from "@/app/(private)/search/actions";
 import {Trip} from "@/types/carpool";
 import BookingCard from "@/components/ui/BookingCard";
+import TripCard from "@/app/(private)/search/components/TripCard";
 
 interface ResultsListProps {
     state: ActionResult
@@ -25,7 +26,7 @@ export default function ResultsList({ state }: Readonly<ResultsListProps>) {
         <div className="mt-4">
             {incomingTrips
                 .map((trip: Trip) => (
-            <BookingCard key={trip.id} trip={trip} />
+            <TripCard trip={trip} key={trip.id}/>
             ))}
         </div>
     )
