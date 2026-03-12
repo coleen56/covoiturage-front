@@ -28,6 +28,13 @@ export async function getTripsAsPassengers(): Promise<Array<Booking>> {
     });
 }
 
+export async function getTripsAsDriver(): Promise<Array<Trip>> {
+    const driverId = await auth.getCurrentUserIdServer();
+    return await fetchApi<Array<Trip>>(`/api/persons/${driverId}/trips-driver`, {
+        method: 'GET',
+    });
+}
+
 export async function getCarManufacturer(query: string): Promise<Manufacturer[]> {
     return await fetchApi<Array<Manufacturer>>(`/api/brands?name=${query}`, {
         method: 'GET',
