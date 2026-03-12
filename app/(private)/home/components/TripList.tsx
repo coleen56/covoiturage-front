@@ -32,7 +32,7 @@ export default async function TripList() {
             return (
                 <>
                     <h1 className="mb-3 text-xl">Aucun trajet à venir pour le moment.</h1>
-                    <Link href={"/booking"} className="bg-gray-800 text-white px-3 py-1 rounded-lg flex flex-row items-center justify-center"><FaCar className="me-3" />Je réserve un trajet</Link>
+                    <Link href={"/search"} className="bg-gray-800 text-white px-3 py-1 rounded-lg flex flex-row items-center justify-center"><FaCar className="me-3" />Je réserve un trajet</Link>
                 </>
             )
         }

@@ -1,6 +1,7 @@
 import PageTitle from "@/components/ui/PageTitle";
 import Main from "@/components/ui/Main";
 import {getTrip} from "@/app/(private)/trips/[id]/actions";
+import TripDescription from "@/app/(private)/trips/[id]/components/TripDescription";
 
 export default async function TripPage({ params }: Readonly<{ params: { id: string } }>) {
     const { id } = await params;
@@ -15,13 +16,14 @@ export default async function TripPage({ params }: Readonly<{ params: { id: stri
             </Main>
         )
     }
-    const currentBookings = trip.bookings.filter(booking => !booking.isCancelled);
+
     return (
         <Main>
             <PageTitle>
                 Détails du trajet
             </PageTitle>
-            <h1>Conducteur : {trip.driver.lastname}</h1>
+            <TripDescription trip={trip} />
+
         </Main>
     )
 }

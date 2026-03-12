@@ -87,3 +87,12 @@ export async function getTripById(id: string): Promise<Trip> {
         method: 'GET',
     })
 }
+
+export async function saveNewBooking(passengerId: number, tripId: number): Promise<ApiResponse> {
+    return await fetchApi<ApiResponse>(`/api/trips/${tripId}/person`, {
+        method: 'POST',
+        body: JSON.stringify({
+            "person_id": passengerId
+        }),
+    })
+}

@@ -11,9 +11,9 @@ import {usePathname} from "next/navigation";
 
 const navigation: { name: string, href: string, icon: IconType }[] = [
     { name: 'Accueil', href: '/home', icon: FaHome },
-    { name: 'Mes trajets', href: '/', icon: RiPinDistanceFill },
+    { name: 'Mes trajets', href: '/my-trips', icon: RiPinDistanceFill },
     { name: 'Rechercher un trajet', href: '/search', icon: FaSearch },
-    { name: 'Mes réservations', href: '/',  icon: FaCalendarCheck },
+    { name: 'Mes réservations', href: '/my-bookings',  icon: FaCalendarCheck },
     { name: 'Mon profil', href: '/profile', icon: BsPersonFill },
 ]
 

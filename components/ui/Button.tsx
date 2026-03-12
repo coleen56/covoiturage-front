@@ -2,9 +2,10 @@ interface ButtonProps {
     theme : "dark" | "light" | "danger",
     label : string,
     type : "submit" | "reset" | "button" | undefined,
+    onClick?: () => void,
 }
 
-export default function Button( { theme, label, type }: Readonly<ButtonProps>) {
+export default function Button( { theme, label, type, onClick }: Readonly<ButtonProps>) {
     let classes;
     switch(theme) {
         case "dark": classes = 'mt-5 bg-black text-white px-4 py-1 rounded-md hover:cursor-pointer';
@@ -14,6 +15,6 @@ export default function Button( { theme, label, type }: Readonly<ButtonProps>) {
         case "danger": classes = 'mt-5 bg-red-800 text-white px-4 py-1 rounded-md';
     }
     return (
-        <button type={type} className={classes}>{label}</button>
+        <button type={type} className={classes} onClick={onClick}>{label}</button>
     )
 }
