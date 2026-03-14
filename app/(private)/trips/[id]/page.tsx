@@ -10,8 +10,9 @@ export default async function TripPage({ params }: Readonly<{ params: { id: stri
             <Main>
                 <PageTitle>
                     Une erreur est survenue.
-                    <p>{trip.error}</p>
                 </PageTitle>
+                <p>{trip.error}</p>
+
             </Main>
         )
     }
