@@ -1,3 +1,5 @@
+'use server'
+
 import {getTripsAsDriver} from "@/lib/carpool";
 
 export async function getDrivenTrips() {

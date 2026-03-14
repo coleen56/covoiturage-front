@@ -1,11 +1,13 @@
+'use client'
+
 import {Trip} from "@/types/carpool";
-import TripCard from "@/app/(private)/search/components/TripCard";
-import {getDrivenTrips} from "@/app/(private)/my-trips/actions";
+import TripCard from "@/components/ui/TripCard";
+import Button from "@/components/ui/Button";
+import Link from "next/link";
 
-export default async function TripsList() {
-    const trips = await getDrivenTrips();
+export default function TripsList({ trips }: Readonly<{ trips: Trip[] }>) {
 
-    if (trips.length === 0) {
+    if (!trips || trips.length === 0) {
         return (<div className="mt-4">
             <h1>Aucun trajet à afficher.</h1>
         </div>)
@@ -15,7 +17,11 @@ export default async function TripsList() {
         <div className="mt-4">
             {trips
                 .map((trip: Trip) => (
-                    <TripCard trip={trip} key={trip.id}/>
+                    <TripCard trip={trip} key={trip.id}>
+                        <Link className="flex flex-row justify-center items-center" href={`/trips/${trip.id}`}>
+                            <Button theme={"dark"} label={"Détails"} type={"button"} />
+                        </Link>
+                    </TripCard>
                 ))}
         </div>
     )

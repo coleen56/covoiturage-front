@@ -1,16 +1,18 @@
 'use client'
 
 import {Trip} from "@/types/carpool";
-import Button from "@/components/ui/Button";
-import Link from "next/link";
-import {bookTrip} from "@/app/(private)/trips/[id]/actions";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import SuccessAlert from "@/components/ui/SuccessAlert";
-import {useActionState} from "react";
-import {ActionState, loginAction} from "@/app/(auth)/login/actions";
+import React, {useState} from "react";
+import {ActionState} from "@/app/(auth)/login/actions";
+import CancelBookingForm from "@/app/(private)/trips/[id]/components/CancelBookingForm";
+import BookingFormButtons from "@/app/(private)/trips/[id]/components/BookingFormButtons";
+import DriverFormButtons from "@/app/(private)/trips/[id]/components/DriverFormButtons";
 
-export default function TripDescription({trip}: Readonly<{ trip: Trip }>) {
-    const [state, formAction] = useActionState<ActionState, FormData>(bookTrip, null)
+export default function TripDescription({trip, isDriver, isPassenger}: Readonly<{ trip: Trip, isDriver: boolean, isPassenger: boolean }>) {
+    const [cancelState, setCancelState] = useState<ActionState>(null);
+    const [bookingState, setBookingState] = useState<ActionState>(null);
+    const [cancelTripState, setCancelTripState] = useState<ActionState>(null);
     // filtrage des réservations non annulées
     const currentBookings = trip.bookings.filter(booking => !booking.isCancelled);
 
@@ -24,14 +26,31 @@ export default function TripDescription({trip}: Readonly<{ trip: Trip }>) {
 
     const car = trip.driver.car;
 
+    const isPast = date.getTime() < new Date().getTime();
+
     return (
         <>
-            {'error' in (state ?? {}) && (
-                <ErrorAlert message={(state as { error: string }).error} />
+            {/*divs d'affichage erreur/success*/}
+            {'error' in (bookingState ?? {}) && (
+                <ErrorAlert message={(bookingState as { error: string }).error} />
             )}
-            {'success' in (state ?? {}) && (
-                <SuccessAlert message={(state as unknown as { success: string }).success} />
+            {'success' in (bookingState ?? {}) && (
+                <SuccessAlert message={(bookingState as unknown as { success: string }).success} />
             )}
+
+            {'error' in (cancelState ?? {}) && (
+                <ErrorAlert message={(cancelState as { error: string }).error} />
+            )}
+            {'success' in (cancelState ?? {}) && (
+                <SuccessAlert message={(cancelState as unknown as { success: string }).success} />
+            )}
+
+                {'error' in (cancelTripState ?? {}) && (
+                    <ErrorAlert message={(cancelTripState as { error: string }).error} />
+                )}
+                {'success' in (cancelTripState ?? {}) && (
+                    <SuccessAlert message={(cancelTripState as unknown as { success: string }).success} />
+                )}
             <div className={"bg-gray-200 w-100 rounded-lg p-4 mt-5"}>
                 <h1>Conducteur : {trip.driver.firstname + ' ' + trip.driver.lastname}</h1>
                 <p>Date et heure de départ : {formattedDate}</p>
@@ -41,27 +60,39 @@ export default function TripDescription({trip}: Readonly<{ trip: Trip }>) {
                 <p>Nombre de réservations : {currentBookings.length}</p>
                 <p>Nombre de places disponibles : {trip.seats - currentBookings.length}</p>
             </div>
-            <div className={"bg-gray-200 w-100 rounded-lg p-4 mt-3"}>
-                <h1 className={"font-bold underline underline-offset-4 mb-2"}>Voiture : {car.manufacturer.name} {car.model}</h1>
-                <p>Immatriculation : {car.licencePlate}</p>
-                <p>Description : {car.description}</p>
-            </div>
+                {car && (
+                    <div className={"bg-gray-200 w-100 rounded-lg p-4 mt-3"}>
+                        <h1 className={"font-bold underline underline-offset-4 mb-2"}>
+                            Voiture : {car.manufacturer?.name} {car.model}
+                        </h1>
+                        <p>Immatriculation : {car.licencePlate}</p>
+                        <p>Description : {car.description}</p>
+                    </div>
+                )}
+            {/*    affichage des passagers + formulaire d'annulation pour driver*/}
             <div className={"bg-gray-200 w-100 rounded-lg p-4 mt-3"}>
                 <h1 className={"font-bold underline underline-offset-4 mb-2"}>Passagers : </h1>
                 <ul>
-                {currentBookings.map(booking => (
-                    <li key={booking.id}>{booking.passenger.firstname + ' ' + booking.passenger.lastname}</li>
+                { currentBookings.map(booking => (
+                    <li key={booking.id} className={"flex flex-row items-center"}>{booking.passenger.firstname + ' ' + booking.passenger.lastname}
+                        {isDriver && (
+                            <CancelBookingForm booking={booking} onStateChange={setCancelState} trip={trip}/>
+                        )}</li>
                 ))}
+                    {/*si pas de passager*/}
+                    {currentBookings.length == 0 && (
+                        <li>Aucun passager pour le moment.</li>
+                    )}
                 </ul>
             </div>
-            <form action={formAction}>
-                <input type="hidden" name="tripId" value={trip.id} />
-                <div className={"flex flex-row justify-between w-100"}>
-                    <Link href={"/search"}><Button theme={"danger"} label={"Annuler"} type={"button"} /></Link>
-                    <Button theme={"light"} label={"Envoyer un message"} type={"button"} />
-                    <Button theme={"dark"} label={"Confirmer"} type={"submit"} />
-                </div>
-            </form>
+            {/*    form pour user ni passager ni driver */}
+                {!isDriver && !isPassenger && (
+                    <BookingFormButtons tripId={trip.id} onStateChange={setBookingState}/>
+                )}
+                {/*form pour driver*/}
+                {isDriver && (
+                    <DriverFormButtons driverId={trip.driver.id} tripId={trip.id} onStateChange={setCancelTripState} actionBlocked={isPast || trip.isCancelled} />
+                )}
         </>
     )
 }

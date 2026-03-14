@@ -2,7 +2,9 @@
 
 import {ActionResult} from "@/app/(private)/search/actions";
 import {Trip} from "@/types/carpool";
-import TripCard from "@/app/(private)/search/components/TripCard";
+import TripCard from "@/components/ui/TripCard";
+import Button from "@/components/ui/Button";
+import Link from "next/link";
 
 interface ResultsListProps {
     state: ActionResult
@@ -28,7 +30,11 @@ export default function ResultsList({ state }: Readonly<ResultsListProps>) {
         <div className="mt-4">
             {incomingTrips
                 .map((trip: Trip) => (
-            <TripCard trip={trip} key={trip.id}/>
+                    <TripCard trip={trip} key={trip.id}>
+                        <Link className="flex flex-row justify-center items-center" href={`/trips/${trip.id}`}>
+                            <Button theme={"dark"} label={"Réserver"} type={"button"} />
+                        </Link>
+                    </TripCard>
             ))}
         </div>
     )

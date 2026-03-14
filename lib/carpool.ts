@@ -103,3 +103,15 @@ export async function saveNewBooking(passengerId: number, tripId: number): Promi
         }),
     })
 }
+
+export async function cancelPassengerBooking(bookingId: string): Promise<ApiResponse> {
+    return await fetchApi<ApiResponse>(`/api/bookings/${bookingId}/cancel`, {
+        method: 'PATCH',
+    })
+}
+
+export async function cancelTrip(tripId: string): Promise<ApiResponse> {
+    return await fetchApi<ApiResponse>(`/api/trips/${tripId}/cancel`, {
+        method: 'PATCH',
+    })
+}
