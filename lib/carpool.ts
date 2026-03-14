@@ -28,6 +28,13 @@ export async function getTripsAsPassengers(): Promise<Array<Booking>> {
     });
 }
 
+export async function getTripsAsDriver(): Promise<Array<Trip>> {
+    const driverId = await auth.getCurrentUserIdServer();
+    return await fetchApi<Array<Trip>>(`/api/persons/${driverId}/trips-driver`, {
+        method: 'GET',
+    });
+}
+
 export async function getCarManufacturer(query: string): Promise<Manufacturer[]> {
     return await fetchApi<Array<Manufacturer>>(`/api/brands?name=${query}`, {
         method: 'GET',
@@ -85,5 +92,14 @@ export async function searchForTrips(data: TripFormData): Promise<Trip[]> {
 export async function getTripById(id: string): Promise<Trip> {
     return await fetchApi<Trip>(`/api/trips/${id}`, {
         method: 'GET',
+    })
+}
+
+export async function saveNewBooking(passengerId: number, tripId: number): Promise<ApiResponse> {
+    return await fetchApi<ApiResponse>(`/api/trips/${tripId}/person`, {
+        method: 'POST',
+        body: JSON.stringify({
+            "person_id": passengerId
+        }),
     })
 }
