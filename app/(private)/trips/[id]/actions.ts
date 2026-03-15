@@ -40,11 +40,15 @@ export async function deleteBooking(prevState: ActionState, formData: FormData):
     if (driverId !== userId!.toString()) {
         return { error: "Non autorisé" };
     }
+    try {
+        const result = await cancelPassengerBooking(bookingId);
+        if (!result.success) return { error: "Erreur lors de l'annulation de la réservation." };
 
-    const result = await cancelPassengerBooking(bookingId);
-    if (!result.success) return { error: "Erreur lors de l'annulation de la réservation." };
+        return { success: "La réservation a bien été annulée." };
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : "Une erreur est survenue" }
+    }
 
-    return { success: "La réservation a bien été annulée." };
 }
 
 export async function cancelBookingAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
@@ -55,12 +59,16 @@ export async function cancelBookingAction(prevState: ActionState, formData: Form
     if(passengerId != currentUserId?.toString()) {
         return { error: "Action non autorisée." };
     }
-
-    const result = await cancelPassengerBooking(bookingId);
-    if (!result.success) {
-        return  {error: "Erreur lors de l'annulation de la réservation."};
+    try {
+        const result = await cancelPassengerBooking(bookingId);
+        if (!result.success) {
+            return  {error: "Erreur lors de l'annulation de la réservation."};
+        }
+        return { success : "Votre réservation a bien été annulée."};
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : "Une erreur est survenue" }
     }
-    return { success : "Votre réservation a bien été annulée."};
+
 }
 
 export async function cancelTripAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
@@ -72,9 +80,13 @@ export async function cancelTripAction(prevState: ActionState, formData: FormDat
         return { error: "Non autorisé" };
     }
     const tripId = formData.get('tripId') as string;
-    const result = await cancelTrip(tripId);
+    try {
+        const result = await cancelTrip(tripId);
 
-    if (!result.success) return { error: "Erreur lors de l'annulation du trajet." };
+        if (!result.success) return { error: "Erreur lors de l'annulation du trajet." };
 
-    return { success: "Le trajet a bien été annulé." };
+        return { success: "Le trajet a bien été annulé." };
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : "Une erreur est survenue" }
+    }
 }

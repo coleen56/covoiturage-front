@@ -56,7 +56,7 @@ export async function saveNewTrip(formData: NewTripFormData): Promise<ActionStat
         }
     }
     try {
-        console.log(await saveTrip(newTrip));
+        await saveTrip(newTrip);
         return { success : "Le trajet a été enregistré avec succès !"}
     } catch (error) {
         return { error: error instanceof Error ? error.message : "Une erreur est survenue lors de l'enregistrement du trajet." }

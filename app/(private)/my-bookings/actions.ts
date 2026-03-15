@@ -4,10 +4,14 @@ export async function getUserBookings() {
     try {
         return await getTripsAsPassenger();
     } catch (error) {
-        return { error : "Une erreur est survenue." }
+        return { error: error instanceof Error ? error.message : "Une erreur est survenue." }
     }
 }
 
 export async  function getTrip(tripId: number) {
-    return await getTripById(tripId.toString());
+    try {
+        return await getTripById(tripId.toString());
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : "Une erreur est survenue." }
+    }
 }
