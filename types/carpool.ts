@@ -44,6 +44,7 @@ export interface Trip {
 }
 
 export interface Address {
+    id?: number
     number: string
     streetname: string
     city: City

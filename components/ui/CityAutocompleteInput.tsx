@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {City} from "@/types/carpool";
-import {getCities} from "@/app/(private)/search/actions";
+import {getCities} from "@/components/ui/actions";
 
 interface CityInputProps {
     name: string;
@@ -10,7 +10,7 @@ interface CityInputProps {
     onSelect: (name: string) => void
 }
 
-export default function CityInput(props: Readonly<CityInputProps>) {
+export default function CityAutocompleteInput(props: Readonly<CityInputProps>) {
     const [query, setQuery] = useState(props.value)
     const [suggestions, setSuggestions] = useState<City[]>([])
 

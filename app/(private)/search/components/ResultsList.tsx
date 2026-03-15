@@ -11,6 +11,7 @@ interface ResultsListProps {
 }
 
 export default function ResultsList({ state }: Readonly<ResultsListProps>) {
+    console.log("state", state)
     if (!state || 'error' in state) {
         return <div className="mt-4"><p>{state?.error ?? ''}</p></div>
     }

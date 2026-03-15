@@ -1,6 +1,6 @@
 'use server'
 
-import {getCitiesByName, searchForTrips} from "@/lib/carpool";
+import {searchForTrips} from "@/lib/carpool";
 import {Trip} from "@/types/carpool";
 
 export type TripFormData = {
@@ -13,10 +13,6 @@ export type ActionResult =
     | { trips: Trip[] }
     | { error: string }
     | null
-
-export async function getCities(query:string) {
-    return await getCitiesByName(query);
-}
 
 export async function getTripsFromFormData(data: TripFormData) {
     try {

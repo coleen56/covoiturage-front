@@ -4,7 +4,7 @@ import {getManufacturers} from "@/app/(private)/profile/actions";
 
 interface ManufacturerInputProps {
     value: string
-    onSelect: (id: number, name: string) => void
+    onSelect: (id: number | null, name: string) => void
 }
 
 export default function ManufacturerInput({value, onSelect}: Readonly<ManufacturerInputProps>) {
@@ -20,10 +20,20 @@ export default function ManufacturerInput({value, onSelect}: Readonly<Manufactur
         // fetch à chaque frappe
         getManufacturers(query).then(setSuggestions)
     }, [query])
+
+    function handleBlur() {
+        setSuggestions([])
+        const match = suggestions.find(m => m.name?.toLowerCase() === query.toLowerCase())
+        if (!match) {
+            onSelect(null, query)
+        }
+    }
+
     return (
         <div className="relative">
-            <label htmlFor={"car_manufacturer"} className="block text-sm/6 font-medium text-black">Marque</label>
+            <label htmlFor={"car_manufacturer"} className="block text-sm/6 font-medium text-black">Marque*</label>
                 <input
+                    onBlur={handleBlur}
                 name={"car_manufacturer"}
                 id={"car_manufacturer"}
                 type="text"
@@ -37,6 +47,7 @@ export default function ManufacturerInput({value, onSelect}: Readonly<Manufactur
                     {suggestions.map(m => (
                         <li
                             key={m.id}
+                            onMouseDown={e => e.preventDefault()}
                             onClick={() => {
                                 onSelect(m.id, m.name!)
                                 setQuery(m.name!)

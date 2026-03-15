@@ -5,6 +5,8 @@ import PageTitle from "@/components/ui/PageTitle";
 import {FaPlus} from "react-icons/fa";
 import TripsList from "@/app/(private)/my-trips/components/TripsList";
 import {getDrivenTrips} from "@/app/(private)/my-trips/actions";
+import Button from "@/components/ui/Button";
+import Link from "next/link";
 
 export default async function MyTripsPage() {
     const trips = await getDrivenTrips();
@@ -13,9 +15,13 @@ export default async function MyTripsPage() {
             <PageTitle>
                 Mes trajets
             </PageTitle>
-            <button className={"absolute bg-gray-900 right-4 bottom-4 p-5 rounded-lg"}>
-                <FaPlus className={"text-4xl text-white"} />
-            </button>
+            <div className={"w-100 flex flex-row justify-end"}>
+                <Link href={"new-trip"}>
+                    <Button theme={"dark"} label={"Créer un trajet"} type={"button"} >
+                        <FaPlus className={"inline mr-2"}/>
+                    </Button>
+                </Link>
+            </div>
             <TripsList trips={trips} />
         </Main>
     )

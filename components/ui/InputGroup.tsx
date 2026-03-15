@@ -22,8 +22,8 @@ export default function InputGroup(props: Readonly<InputGroupProps>) {
     focus-within:outline-indigo-500 border ${props.disabled ? "bg-gray-300 text-gray-500" : "bg-white/5 text-black"}`;
     return(
         <>
-            <label htmlFor={props.name} className="block text-sm/6 font-medium text-black">{props.label}</label>
             <div className="mt-2">
+            <label htmlFor={props.name} className="block text-sm/6 font-medium text-black">{props.label}</label>
                 <div
                     className={divClasses}>
                     <input id={props.id} type={props.type} name={props.name} placeholder={props.placeholder} value={props.value} onChange={props.onChange} disabled={props.disabled} min={props.min} max={props.max} step={props.step}

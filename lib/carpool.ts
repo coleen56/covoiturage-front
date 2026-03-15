@@ -1,15 +1,15 @@
 import {fetchApi} from "@/lib/api";
 import {auth} from "@/lib/auth";
-import {Booking, City, Manufacturer, Profile, Trip} from "@/types/carpool";
+import {Address, Booking, City, Manufacturer, Profile, Trip} from "@/types/carpool";
 import {ApiResponse} from "@/types/auth";
 import {TripFormData} from "@/app/(private)/search/actions";
 
 interface CarApi {
-    id: number,
+    id: number | null,
     seats: number,
     model: string,
     carregistration: string,
-    brand: number,
+    brand: number | null,
     description: string
 }
 
@@ -19,9 +19,30 @@ interface CityApi {
     _score?: number
 }
 
-const CITY_API_URL = process.env.NEXT_PUBLIC_CITY_API_URL
+interface TripApi {
+    "person_id": number | null,
+    "trip_datetime": string,
+    "kms": string,
+    "available_seats": string,
+    "starting_address": {
+        "street_name": string,
+        "street_number": string,
+        "city_name": string,
+        "postal_code": string
+    },
+    "arrival_address": {
+        "street_name": string,
+        "street_number": string,
+        "city_name": string,
+        "postal_code": string
 
-export async function getTripsAsPassengers(): Promise<Array<Booking>> {
+    }
+}
+
+const CITY_API_URL = process.env.NEXT_PUBLIC_CITY_API_URL
+const ADDRESS_API_URL = process.env.NEXT_PUBLIC_ADDRESS_API_URL
+
+export async function getTripsAsPassenger(): Promise<Array<Booking>> {
     const userId = await auth.getCurrentUserIdServer();
     return await fetchApi<Array<Booking>>(`/api/persons/${userId}/trips-passenger`, {
         method: 'GET',
@@ -114,4 +135,32 @@ export async function cancelTrip(tripId: string): Promise<ApiResponse> {
     return await fetchApi<ApiResponse>(`/api/trips/${tripId}/cancel`, {
         method: 'PATCH',
     })
+}
+
+export async function getAddressSuggestions(query: string, limit: number): Promise<Address[]> {
+    const data = await fetchApi<never>(`q=${query}&limit=${limit}`, {
+        method: 'GET',
+    }, ADDRESS_API_URL);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const results: Address[] = data.features.map((f: any) => ({
+        number: f.properties.housenumber,
+        streetname: f.properties.street,
+        city: {
+            zipCode: f.properties.postcode,
+            name: f.properties.city,
+        }
+    }))
+    console.log(results)
+
+    return results;
+}
+
+export async function saveTrip(trip : TripApi): Promise<ApiResponse> {
+    console.log(trip)
+    return await fetchApi<ApiResponse>(`/api/trips`, {
+        method: 'POST',
+        body: JSON.stringify(trip)
+    })
+
 }

@@ -1,27 +1,28 @@
 import BookingCard from "@/components/ui/BookingCard";
-import {getTripsAsPassengers} from "@/lib/carpool";
+import {getTripsAsPassenger} from "@/lib/carpool";
 import Link from "next/link";
 import {FaCar} from "react-icons/fa";
 
 export default async function TripList() {
     let bookings;
     try {
-        bookings = await getTripsAsPassengers();
+        bookings = await getTripsAsPassenger();
     } catch (error) {
         console.log(error);
     }
 
     if(bookings) {
-        const incomingBookings = bookings.filter(booking => new Date(booking.trip.departureDatetime) > new Date())
+        const incomingBookings = bookings
+            // on garde uniquement les trajets pas encore passés, pas annulés et réservation pas annulée non plus
+            .filter(booking => new Date(booking.trip.departureDatetime) > new Date())
+            .filter(booking => !booking.trip.isCancelled && !booking.isCancelled)
 
         if (incomingBookings.length > 0) {
             return (
                 <>
                     <h1 className="mb-3 text-xl">Vos trajets à venir :</h1>
                     <ul>
-                        {bookings
-                            // on garde uniquement les trajets pas encore passés
-                            .filter(booking => new Date(booking.trip.departureDatetime) > new Date())
+                        {incomingBookings
                             .map(booking =>
                                 <BookingCard key={booking.id} trip={booking.trip}/>
                             )}

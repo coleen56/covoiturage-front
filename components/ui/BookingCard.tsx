@@ -18,8 +18,10 @@ export default function BookingCard({trip}: Readonly<TripCardProps>) {
         timeStyle: 'short',
     })
 
+    const link = `/trips/${trip.id}`;
+
     return (
-        <a href="/preview" className="bg-gray-200 block max-w-sm p-6 rounded-lg shadow-xs hover:bg-neutral-secondary-medium">
+        <a href={ link } className="bg-gray-200 block max-w-sm p-6 rounded-lg shadow-xs hover:bg-neutral-secondary-medium">
             <div className="flex flex-row items-center py-2 space-x-2 text-3xl">
                 <FaCalendarDays />
                 <h5 className="font-semibold tracking-tight text-heading leading-8 underline underline-offset-5">{formattedDate}</h5>

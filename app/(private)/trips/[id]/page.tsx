@@ -25,9 +25,11 @@ export default async function TripPage({ params, searchParams }: Readonly<{ para
 
     const isDriver = trip.driver.id == currentUserId;
     let isPassenger = false;
+    let userBooking = null
     trip.bookings.forEach((booking) => {
         if(booking.passenger.id == currentUserId) {
             isPassenger = true;
+            userBooking = booking;
         }
     })
 
@@ -36,7 +38,7 @@ export default async function TripPage({ params, searchParams }: Readonly<{ para
             <PageTitle>
                 Détails du trajet
             </PageTitle>
-            <TripDescription trip={trip} isDriver={isDriver} isPassenger={isPassenger}/>
+            <TripDescription trip={trip} isDriver={isDriver} isPassenger={isPassenger} userBooking={userBooking ?? undefined} />
 
         </Main>
     )

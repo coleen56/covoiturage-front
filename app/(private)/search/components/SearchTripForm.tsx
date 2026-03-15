@@ -1,8 +1,8 @@
 'use client'
 
-import InputGroup from "@/components/ui/input-group";
+import InputGroup from "@/components/ui/InputGroup";
 import React, {startTransition, useState} from "react";
-import CityInput from "@/app/(private)/search/components/CityInput";
+import CityAutocompleteInput from "@/components/ui/CityAutocompleteInput";
 import {TripFormData} from "@/app/(private)/search/actions";
 import Button from "@/components/ui/Button";
 
@@ -31,14 +31,14 @@ export default function SearchTripForm({dispatch, isPending}: Readonly<SearchTri
 
     return (
         <form className="w-100" onSubmit={handleSubmit}>
-            <CityInput name={"startingCity"} label={"Ville de départ"} placeholder={"Ville de départ"} value={formData.startingCity}
-                       onSelect={(name) => setFormData(prev => ({
+            <CityAutocompleteInput name={"startingCity"} label={"Ville de départ"} placeholder={"Ville de départ"} value={formData.startingCity}
+                                   onSelect={(name) => setFormData(prev => ({
                            ...prev,
                            startingCity: name,
                        }))}/>
 
-            <CityInput name={"arrivalCity"} label={"Ville d'arrivée"} placeholder={"Ville d'arrivée"} value={formData.arrivalCity}
-                       onSelect={(name) => setFormData(prev => ({
+            <CityAutocompleteInput name={"arrivalCity"} label={"Ville d'arrivée"} placeholder={"Ville d'arrivée"} value={formData.arrivalCity}
+                                   onSelect={(name) => setFormData(prev => ({
                            ...prev,
                            arrivalCity: name,
                        }))}/>

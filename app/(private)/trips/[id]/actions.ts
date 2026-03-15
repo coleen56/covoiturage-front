@@ -47,6 +47,22 @@ export async function deleteBooking(prevState: ActionState, formData: FormData):
     return { success: "La réservation a bien été annulée." };
 }
 
+export async function cancelBookingAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+    const bookingId = formData.get('bookingId') as string;
+    const passengerId = formData.get('passengerId') as string;
+    const currentUserId = await auth.getCurrentUserIdServer();
+
+    if(passengerId != currentUserId?.toString()) {
+        return { error: "Action non autorisée." };
+    }
+
+    const result = await cancelPassengerBooking(bookingId);
+    if (!result.success) {
+        return  {error: "Erreur lors de l'annulation de la réservation."};
+    }
+    return { success : "Votre réservation a bien été annulée."};
+}
+
 export async function cancelTripAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
     const userId = await auth.getCurrentUserIdServer();
     const driverId = formData.get('driverId') as string;

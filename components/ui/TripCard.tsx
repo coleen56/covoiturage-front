@@ -11,9 +11,8 @@ export default function TripCard( { trip, children }: Readonly<{trip: Trip, chil
     })
 
     const isPast = date.getTime() < new Date().getTime();
-    console.log(isPast);
 
-    const remainingSeats = trip.seats - trip.bookings.filter((b) => !b.isCancelled).length;
+    const remainingSeats = trip.seats - trip.bookings?.filter((b) => !b.isCancelled).length;
 
     return (
         <div className="bg-gray-200 block w-100 p-6 rounded-lg shadow-xs hover:bg-neutral-secondary-medium">

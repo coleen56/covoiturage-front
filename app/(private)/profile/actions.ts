@@ -4,18 +4,21 @@ import {Manufacturer, Profile, User} from "@/types/carpool";
 import {auth, getUserProfile} from "@/lib/auth";
 import {createCar, getCarManufacturer, saveProfile, updateCar} from "@/lib/carpool";
 
-export type ProfileFormData = {
+export type UserFormData = {
     email: string
     firstname: string
     lastname: string
     phone: string
-    car_id: number
-    car_model: string
-    car_licence_plate: string
-    car_seats: number
-    car_manufacturer_id: number
-    car_manufacturer_name: string
-    car_description: string
+}
+
+export type CarFormData = {
+    car_id: number | null,
+    car_manufacturer_id: number | null,
+    car_model: string,
+    car_seats: number,
+    car_licence_plate: string,
+    car_manufacturer_name: string,
+    car_description: string,
 }
 
 export async function getProfile(): Promise<User> {
@@ -26,7 +29,7 @@ export async function getManufacturers(query: string): Promise<Manufacturer[]> {
     return await getCarManufacturer(query);
 }
 
-export async function saveNewProfile(data: ProfileFormData): Promise<{error: string, success?: string} | {success: string, error?: string}> {
+export async function saveNewProfile(data: UserFormData): Promise<{error: string, success?: string} | {success: string, error?: string}> {
     const id = await auth.getCurrentUserIdServer();
     const profile: Profile = {
         "id": id!,
@@ -36,6 +39,15 @@ export async function saveNewProfile(data: ProfileFormData): Promise<{error: str
         "phone": data.phone,
     }
 
+    try {
+        await saveProfile(profile)
+        return { success : "Profil mis à jour avec succès !"}
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : 'Une erreur est survenue' }
+    }
+}
+
+export async function saveNewCar(data: CarFormData): Promise<{error: string, success?: string} | {success: string, error?: string}> {
     const car = {
         "id": data.car_id,
         "seats": data.car_seats,
@@ -44,15 +56,19 @@ export async function saveNewProfile(data: ProfileFormData): Promise<{error: str
         "brand": data.car_manufacturer_id,
         "description": data.car_description
     }
+
+    if(!car.seats || !car.model || !car.carregistration) {
+        return { error: "Les champs marqués d'un * ne peuvent être vides."}
+    }
+
     try {
-        await saveProfile(profile)
         if(car.id) {
             await updateCar(car)
         } else {
             await createCar(car)
         }
-        return { success : "Profil mis à jour avec succès !"}
+        return { success : "Voiture enregistrée avec succès !"}
     } catch (error) {
-        return { error: error instanceof Error ? error.message : 'Une erreur est survenue' }
+        return { error: error instanceof Error ? error.message : "Une erreur est survenue" }
     }
 }

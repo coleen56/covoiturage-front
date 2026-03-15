@@ -20,7 +20,7 @@ export async function fetchApi<T>(endpoint: string, options?: RequestInit, baseU
     }
 
     const url = baseUrl ? baseUrl + endpoint : BASE_URL + endpoint;
-    console.log(url)
+    // console.log(url)
 
     const res = await fetch(url, {
         ...options,

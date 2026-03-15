@@ -1,6 +1,6 @@
 'use client'
 
-import {Trip} from "@/types/carpool";
+import {Booking, Trip} from "@/types/carpool";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import SuccessAlert from "@/components/ui/SuccessAlert";
 import React, {useState} from "react";
@@ -8,11 +8,13 @@ import {ActionState} from "@/app/(auth)/login/actions";
 import CancelBookingForm from "@/app/(private)/trips/[id]/components/CancelBookingForm";
 import BookingFormButtons from "@/app/(private)/trips/[id]/components/BookingFormButtons";
 import DriverFormButtons from "@/app/(private)/trips/[id]/components/DriverFormButtons";
+import PassengerFormButtons from "@/app/(private)/trips/[id]/components/PassengerFormButtons";
 
-export default function TripDescription({trip, isDriver, isPassenger}: Readonly<{ trip: Trip, isDriver: boolean, isPassenger: boolean }>) {
+export default function TripDescription({trip, isDriver, isPassenger, userBooking}: Readonly<{ trip: Trip, isDriver: boolean, isPassenger: boolean, userBooking?: Booking }>) {
     const [cancelState, setCancelState] = useState<ActionState>(null);
     const [bookingState, setBookingState] = useState<ActionState>(null);
     const [cancelTripState, setCancelTripState] = useState<ActionState>(null);
+    const [cancelBookingState, setCancelBookingState] = useState<ActionState>(null);
     // filtrage des réservations non annulées
     const currentBookings = trip.bookings.filter(booking => !booking.isCancelled);
 
@@ -51,6 +53,13 @@ export default function TripDescription({trip, isDriver, isPassenger}: Readonly<
                 {'success' in (cancelTripState ?? {}) && (
                     <SuccessAlert message={(cancelTripState as unknown as { success: string }).success} />
                 )}
+
+            {'error' in (cancelBookingState ?? {}) && (
+                <ErrorAlert message={(cancelBookingState as { error: string }).error} />
+            )}
+            {'success' in (cancelBookingState ?? {}) && (
+                <SuccessAlert message={(cancelBookingState as unknown as { success: string }).success} />
+            )}
             <div className={"bg-gray-200 w-100 rounded-lg p-4 mt-5"}>
                 <h1>Conducteur : {trip.driver.firstname + ' ' + trip.driver.lastname}</h1>
                 <p>Date et heure de départ : {formattedDate}</p>
@@ -92,6 +101,10 @@ export default function TripDescription({trip, isDriver, isPassenger}: Readonly<
                 {/*form pour driver*/}
                 {isDriver && (
                     <DriverFormButtons driverId={trip.driver.id} tripId={trip.id} onStateChange={setCancelTripState} actionBlocked={isPast || trip.isCancelled} />
+                )}
+                {/*form pour passager*/}
+                {isPassenger && userBooking != undefined && (
+                    <PassengerFormButtons booking={userBooking} onStateChange={setCancelBookingState}/>
                 )}
         </>
     )
