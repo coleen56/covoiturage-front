@@ -32,7 +32,7 @@ export default function LoginForm() {
                 <div className='flex flex-col items-baseline justify-center w-fit mt-5'>
                     <label htmlFor={'password'}>Password</label>
                     <input type={"password"} className='bg-gray-200 mt-1 rounded-md text-lg p-1' placeholder='•••••••••' name={'password'} id={"password"}/>
-                    <a className='mt-2 text-sm underline' href={"#"}>Mot de passe oublié ?</a>
+                    <a className='mt-2 text-sm underline' href={"/forgot-password"}>Mot de passe oublié ?</a>
                 </div>
                 <div className='flex flex-row items-center justify-between w-fit mt-4 space-x-6'>
                     <Button theme={"dark"} label={"Login"} type={"submit"}/>

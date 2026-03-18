@@ -1,7 +1,7 @@
 
 
 import {fetchApi} from './api'
-import {AuthCredentials, AuthResponse, RegisterResponse} from '@/types/auth'
+import {ApiResponse, AuthCredentials, AuthResponse, RegisterResponse} from '@/types/auth'
 import {cookies} from 'next/headers'
 import {User} from "@/types/carpool";
 
@@ -14,6 +14,15 @@ export async function loginUser(credentials: AuthCredentials): Promise<AuthRespo
         await auth.setServerToken(result.token);
     }
     return result;
+}
+
+export async function resetPassword(email: string): Promise<ApiResponse> {
+    return await fetchApi<ApiResponse>('/api/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({
+            "email": email
+        })
+    });
 }
 
 export async function registerUser(credentials: AuthCredentials): Promise<RegisterResponse> {

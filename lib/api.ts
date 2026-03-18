@@ -2,7 +2,7 @@ import { auth } from "./auth";
 import logoutAction from "@/app/(auth)/(logout)/actions";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL  // url backend
-const PUBLIC_ROUTES = new Set(['/login', '/api/register']);
+const PUBLIC_ROUTES = new Set(['/login', '/api/register', '/api/forgot-password']);
 
 export async function fetchApi<T>(endpoint: string, options?: RequestInit, baseUrl?: string): Promise<T> {
     // vérifie validité du token avant chaque requête SAUF sur les routes publiques
