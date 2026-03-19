@@ -1,24 +1,25 @@
 'use client'
 
-import InputGroup from "@/components/ui/InputGroup";
-import {ChangeEvent, useState} from "react";
+import InputGroup from "@/components/ui/form-controls/InputGroup";
+import {useActionState} from "react";
 import MessageBodyInput from "@/app/(private)/message/components/MessageBodyInput";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/form-controls/Button";
+import {ActionState, sendMessage} from "@/app/(private)/message/actions"
+import StateAlerts from "@/components/ui/alerts/StateAlerts";
 
-export default function MessageForm() {
-    const [formData, setFormData] = useState({
-        subject: "",
-        body: "",
-    });
+export default function MessageForm({ to, from }: Readonly<{ to: string, from: string }>) {
+    const [state, formAction] = useActionState<ActionState, FormData>(sendMessage, null)
 
-    function handleChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    }
     return (
-        <form className={"w-100"}>
-            <InputGroup label={"Sujet du message"} value={formData.subject} name={"subject"} id={"subject"} type={"text"} placeholder={""} onChange={handleChange} />
-            <MessageBodyInput label={"Message"} value={formData.body} name={"body"} id={"body"} placeholder={""} rows={8} onChange={handleChange}/>
-            <Button theme={"dark"} label={"Envoyer"} type={"submit"} />
-        </form>
+        <>
+            <StateAlerts state={state} />
+            <form className={"w-100"} action={formAction}>
+                <input type={"hidden"} name={"senderId"} value={from}/>
+                <input type={"hidden"} name={"recipientId"} value={to}/>
+                <InputGroup label={"Sujet du message"} name={"subject"} id={"subject"} type={"text"} placeholder={"Sujet du message"} />
+                <MessageBodyInput label={"Message"} name={"message"} id={"message"} placeholder={"Votre message"} rows={8}/>
+                <Button theme={"dark"} label={"Envoyer"} type={"submit"} />
+            </form>
+        </>
     )
 }

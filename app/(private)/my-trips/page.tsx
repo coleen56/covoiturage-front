@@ -1,11 +1,11 @@
 'use server'
 
-import Main from "@/components/ui/Main";
-import PageTitle from "@/components/ui/PageTitle";
+import Main from "@/components/ui/layout/Main";
+import PageTitle from "@/components/ui/layout/PageTitle";
 import {FaPlus} from "react-icons/fa";
 import TripsList from "@/app/(private)/my-trips/components/TripsList";
 import {getDrivenTrips} from "@/app/(private)/my-trips/actions";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/form-controls/Button";
 import Link from "next/link";
 
 export default async function MyTripsPage() {

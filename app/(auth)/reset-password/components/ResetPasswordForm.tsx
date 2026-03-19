@@ -2,10 +2,11 @@
 
 import {useActionState} from "react";
 import {ActionState, resetPasswordAction} from "@/app/(auth)/reset-password/actions";
-import AuthContainer from "@/components/ui/AuthContainer";
-import ErrorAlert from "@/components/ui/ErrorAlert";
-import SuccessAlert from "@/components/ui/SuccessAlert";
-import Button from "@/components/ui/Button";
+import AuthContainer from "@/components/ui/display/AuthContainer";
+import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
+import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
+import Button from "@/components/ui/form-controls/Button";
+import Link from "next/link";
 
 export default function ResetPasswordForm({token}: Readonly<{ token: string }>) {
     const [state, formAction] = useActionState<ActionState, FormData>(resetPasswordAction, null)
@@ -32,6 +33,9 @@ export default function ResetPasswordForm({token}: Readonly<{ token: string }>) 
                 </div>
                 <div className='flex flex-row items-center justify-between w-fit mt-4 space-x-6'>
                     <Button theme={"dark"} label={"Réinitialiser le mot de passe"} type={"submit"}/>
+                </div>
+                <div>
+                    <Link href={"/login"}><Button theme={"light"} label={"Connexion"} type={"button"} /></Link>
                 </div>
             </form>
         </AuthContainer>

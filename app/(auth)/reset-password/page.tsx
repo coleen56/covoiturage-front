@@ -1,4 +1,4 @@
-import Main from "@/components/ui/Main";
+import Main from "@/components/ui/layout/Main";
 import ResetPasswordForm from "@/app/(auth)/reset-password/components/ResetPasswordForm";
 
 export default async function ResetPasswordPage({searchParams}: Readonly<{ searchParams: { token?: string } }>) {

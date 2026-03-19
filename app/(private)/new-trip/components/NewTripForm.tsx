@@ -2,13 +2,14 @@
 
 import React, {FormEvent, startTransition, useActionState, useState} from "react";
 import AddressAutocompleteInput from "@/app/(private)/new-trip/components/AddressAutocompleteInput";
-import InputGroup from "@/components/ui/InputGroup";
+import InputGroup from "@/components/ui/form-controls/InputGroup";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/form-controls/Button";
 import {ActionResult} from "next/dist/shared/lib/app-router-types";
 import {saveNewTrip} from "@/app/(private)/new-trip/actions";
-import ErrorAlert from "@/components/ui/ErrorAlert";
-import SuccessAlert from "@/components/ui/SuccessAlert";
+import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
+import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
+import StateAlerts from "@/components/ui/alerts/StateAlerts";
 
 export default function NewTripForm() {
     const [state, dispatch, isPending] = useActionState<ActionResult, typeof formData>(
@@ -51,12 +52,7 @@ export default function NewTripForm() {
 
     return (
         <>
-            {'error' in (state ?? {}) && (
-                <ErrorAlert message={(state as { error: string }).error} />
-            )}
-            {'success' in (state ?? {}) && (
-                <SuccessAlert message={(state as unknown as { success: string }).success} />
-            )}
+            <StateAlerts state={state} />
         <form className={"w-100 space-y-3"} onSubmit={handleSubmit}>
             <AddressAutocompleteInput name={"startingAddress"} label={"Adresse de départ"} placeholder={"1 place Charles de Gaulle"} value={formData.fullStartingAddress}
                                       onSelect={(number: string, streetname: string, zipCode: string, cityname: string) => {

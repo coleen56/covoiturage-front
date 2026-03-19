@@ -1,6 +1,6 @@
 import {Booking, Trip} from "@/types/carpool";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/form-controls/Button";
 import BookingCard from "@/app/(private)/my-bookings/components/BookingCard";
 
 export default function BookingsList( { bookings }: Readonly<{ bookings: Booking[] }>) {

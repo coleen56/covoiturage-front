@@ -1,5 +1,5 @@
-import PageTitle from "@/components/ui/PageTitle";
-import Main from "@/components/ui/Main";
+import PageTitle from "@/components/ui/layout/PageTitle";
+import Main from "@/components/ui/layout/Main";
 import NewTripFormContainer from "@/app/(private)/new-trip/components/NewTripFormContainer";
 
 export default function NewTrip() {

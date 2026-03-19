@@ -1,4 +1,4 @@
-import BookingCard from "@/components/ui/BookingCard";
+import BookingCard from "@/components/ui/display/BookingCard";
 import {getTripsAsPassenger} from "@/lib/carpool";
 import Link from "next/link";
 import {FaCar} from "react-icons/fa";

@@ -2,12 +2,12 @@ import React from "react";
 
 interface MessageBodyInputProps {
     label: string;
-    value: string;
+    value?: string;
     name: string;
     id: string;
     placeholder: string;
     rows: number;
-    onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 export default function MessageBodyInput(props: Readonly<MessageBodyInputProps>) {
     return (

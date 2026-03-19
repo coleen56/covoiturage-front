@@ -22,6 +22,10 @@ export default async function BookingCard( { booking, children }: Readonly<{book
 
     const isPast = tripDate.getTime() < new Date().getTime();
 
+    if (!trip || 'error' in trip) {
+        return <h1>Une erreur est survenue.</h1>
+    }
+
     return (
         <div className="bg-gray-200 block w-100 p-6 rounded-lg shadow-xs hover:bg-neutral-secondary-medium">
             {booking.trip.isCancelled && (
@@ -40,6 +44,7 @@ export default async function BookingCard( { booking, children }: Readonly<{book
                 <span
                     className="inline-flex items-center rounded-md bg-yellow-800/10 px-2 py-1 text-md font-medium text-yellow-800 inset-ring inset-ring-yellow-800/20 mb-3">Trajet passé</span>
             )}
+
             <h1 className="text-xl font-bold">{trip.departure!.city.name} → {trip.arrival!.city.name} </h1>
             <h2>Conducteur : <span className="bold">{trip.driver.firstname} {trip.driver.lastname}</span></h2>
             <p>Départ : {formattedTripDate}</p>
@@ -48,4 +53,5 @@ export default async function BookingCard( { booking, children }: Readonly<{book
             {children}
         </div>
     )
+
 }

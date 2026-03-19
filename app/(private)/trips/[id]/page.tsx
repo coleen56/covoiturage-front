@@ -1,5 +1,5 @@
-import PageTitle from "@/components/ui/PageTitle";
-import Main from "@/components/ui/Main";
+import PageTitle from "@/components/ui/layout/PageTitle";
+import Main from "@/components/ui/layout/Main";
 import {getTrip} from "@/app/(private)/trips/[id]/actions";
 import TripDescription from "@/app/(private)/trips/[id]/components/TripDescription";
 import {auth} from "@/lib/auth";

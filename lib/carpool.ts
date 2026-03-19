@@ -157,10 +157,20 @@ export async function getAddressSuggestions(query: string, limit: number): Promi
 }
 
 export async function saveTrip(trip : TripApi): Promise<ApiResponse> {
-    console.log(trip)
     return await fetchApi<ApiResponse>(`/api/trips`, {
         method: 'POST',
         body: JSON.stringify(trip)
     })
+}
 
+export async function sendEmail(recipientId: string, senderId: string, subject: string, body: string): Promise<ApiResponse> {
+    return await fetchApi<ApiResponse>(`/api/messages`, {
+        method: 'POST',
+        body: JSON.stringify({
+            "recipientId": recipientId,
+            "senderId": senderId,
+            "subject": subject,
+            "message": body
+        })
+    })
 }

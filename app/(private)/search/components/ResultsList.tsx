@@ -2,8 +2,8 @@
 
 import {ActionResult} from "@/app/(private)/search/actions";
 import {Trip} from "@/types/carpool";
-import TripCard from "@/components/ui/TripCard";
-import Button from "@/components/ui/Button";
+import TripCard from "@/components/ui/display/TripCard";
+import Button from "@/components/ui/form-controls/Button";
 import Link from "next/link";
 
 interface ResultsListProps {

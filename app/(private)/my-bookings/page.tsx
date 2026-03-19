@@ -1,5 +1,5 @@
-import Main from "@/components/ui/Main";
-import PageTitle from "@/components/ui/PageTitle";
+import Main from "@/components/ui/layout/Main";
+import PageTitle from "@/components/ui/layout/PageTitle";
 import BookingsList from "@/app/(private)/my-bookings/components/BookingsList";
 import {getUserBookings} from "@/app/(private)/my-bookings/actions";
 

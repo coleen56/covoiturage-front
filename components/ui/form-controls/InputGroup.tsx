@@ -2,12 +2,12 @@ import React from "react";
 
 interface InputGroupProps {
     label: string;
-    value: string;
+    value?: string;
     name: string;
     id: string;
     type: string;
     placeholder: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     classes?: string;
     min?: number;
@@ -21,7 +21,6 @@ export default function InputGroup(props: Readonly<InputGroupProps>) {
     const divClasses = `flex items-center rounded-md pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 
     focus-within:outline-indigo-500 border ${props.disabled ? "bg-gray-300 text-gray-500" : "bg-white/5 text-black"}`;
     return(
-        <>
             <div className="mt-2">
             <label htmlFor={props.name} className="block text-sm/6 font-medium text-black">{props.label}</label>
                 <div
@@ -30,6 +29,5 @@ export default function InputGroup(props: Readonly<InputGroupProps>) {
                            className={inputClasses}/>
                 </div>
             </div>
-        </>
     )
 }

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import LoginForm from './components/LoginForm'
-import Main from "@/components/ui/Main";
+import Main from "@/components/ui/layout/Main";
 
 export const metadata: Metadata = { title: 'Se connecter' }
 

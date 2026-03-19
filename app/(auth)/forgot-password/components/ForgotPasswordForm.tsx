@@ -1,11 +1,11 @@
 'use client'
 
 import {useActionState} from "react";
-import ErrorAlert from "@/components/ui/ErrorAlert";
-import SuccessAlert from "@/components/ui/SuccessAlert";
-import Button from "@/components/ui/Button";
+import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
+import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
+import Button from "@/components/ui/form-controls/Button";
 import {forgottenPasswordAction, ActionState} from "@/app/(auth)/forgot-password/actions";
-import AuthContainer from "@/components/ui/AuthContainer";
+import AuthContainer from "@/components/ui/display/AuthContainer";
 
 
 export default function ForgotPasswordForm() {

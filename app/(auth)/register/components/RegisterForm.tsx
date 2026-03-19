@@ -2,8 +2,8 @@
 
 import { registerAction } from "../actions";
 import {useActionState} from "react";
-import ErrorAlert from "@/components/ui/ErrorAlert";
-import SuccessAlert from "@/components/ui/SuccessAlert";
+import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
+import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
 
 
 export default function RegisterForm() {

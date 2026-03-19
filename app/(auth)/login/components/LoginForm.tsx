@@ -4,9 +4,9 @@ import { Metadata } from 'next'
 import Link from "next/link";
 import {useActionState} from "react";
 import { loginAction, ActionState } from "../actions";
-import ErrorAlert from "@/components/ui/ErrorAlert";
-import SuccessAlert from "@/components/ui/SuccessAlert";
-import Button from "@/components/ui/Button";
+import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
+import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
+import Button from "@/components/ui/form-controls/Button";
 
 export const metadata: Metadata = { title: 'Connexion' }
 

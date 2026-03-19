@@ -2,7 +2,7 @@
 
 import { Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import logoutAction from '../../app/(auth)/(logout)/actions';
+import logoutAction from '../../../app/(auth)/(logout)/actions';
 import {FaCalendarCheck, FaHome, FaSearch} from "react-icons/fa";
 import { RiPinDistanceFill } from "react-icons/ri";
 import {BsPersonFill} from "react-icons/bs";

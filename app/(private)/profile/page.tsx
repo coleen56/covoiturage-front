@@ -1,5 +1,5 @@
-import PageTitle from "@/components/ui/PageTitle";
-import Main from "@/components/ui/Main";
+import PageTitle from "@/components/ui/layout/PageTitle";
+import Main from "@/components/ui/layout/Main";
 import {getProfile} from "@/app/(private)/profile/actions";
 import ProfileForm from "@/app/(private)/profile/components/ProfileForm";
 
