@@ -25,6 +25,16 @@ export async function resetPassword(email: string): Promise<ApiResponse> {
     });
 }
 
+export async function sendNewPassword(newPassword: string, token: string): Promise<ApiResponse> {
+    return await fetchApi<ApiResponse>('/api/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({
+            "new_password": newPassword,
+            "token": token
+        })
+    });
+}
+
 export async function registerUser(credentials: AuthCredentials): Promise<RegisterResponse> {
     return await fetchApi<RegisterResponse>('/api/register', {
         method: 'POST',

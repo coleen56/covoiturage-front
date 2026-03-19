@@ -30,7 +30,6 @@ export async function registerAction(prevState: ActionState,formData: FormData) 
         const result: RegisterResponse = await registerUser({ email, password })
         return { success: result.message }
     } catch (error) {
-        console.log('Erreur :', error)
         return { error: error instanceof Error ? error.message : 'Erreur inconnue' }
     }
 }

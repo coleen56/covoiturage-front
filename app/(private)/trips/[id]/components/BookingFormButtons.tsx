@@ -24,7 +24,7 @@ export default function BookingFormButtons({ tripId, onStateChange }: Readonly<{
             <input type="hidden" name="tripId" value={tripId} />
             <div className={"flex flex-row justify-between w-100"}>
                 <Link href={"/search"}><Button theme={"danger"} label={"Annuler"} type={"button"} /></Link>
-                <Button theme={"light"} label={"Envoyer un message"} type={"button"} />
+                <Link href={"/message"}><Button theme={"light"} label={"Envoyer un message"} type={"button"} /></Link>
                 <Button theme={"dark"} label={"Confirmer"} type={"submit"} />
             </div>
         </form>
