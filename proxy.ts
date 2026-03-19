@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // routes publiques : création de compte et authentification
-const PUBLIC_ROUTES = ['/login', '/register', '/forgot-password'];
+const PUBLIC_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'];
 
 function isTokenExpired(token: string): boolean {
     try {
