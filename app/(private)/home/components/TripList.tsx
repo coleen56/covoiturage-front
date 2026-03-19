@@ -8,7 +8,12 @@ export default async function TripList() {
     try {
         bookings = await getTripsAsPassenger();
     } catch (error) {
-        console.log(error);
+        return (
+            <>
+                <h1>Une erreur est survenue.</h1>
+                <p>{error instanceof Error ? error.message : null}</p>
+            </>
+        )
     }
 
     if(bookings) {

@@ -7,6 +7,7 @@ import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
 import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
 import Button from "@/components/ui/form-controls/Button";
 import Link from "next/link";
+import StateAlerts from "@/components/ui/alerts/StateAlerts";
 
 export default function ResetPasswordForm({token}: Readonly<{ token: string }>) {
     const [state, formAction] = useActionState<ActionState, FormData>(resetPasswordAction, null)
@@ -14,12 +15,7 @@ export default function ResetPasswordForm({token}: Readonly<{ token: string }>) 
     return (
         <AuthContainer>
 
-            {'error' in (state ?? {}) && (
-                <ErrorAlert message={(state as { error: string }).error} />
-            )}
-            {'success' in (state ?? {}) && (
-                <SuccessAlert message={(state as unknown as { success: string }).success} />
-            )}
+            <StateAlerts state={state} />
 
             <form className='flex flex-col items-center justify-center min-w-fit' action={formAction}>
                 <input type={"hidden"} value={token} name={"token"}/>

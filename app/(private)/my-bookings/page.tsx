@@ -2,6 +2,9 @@ import Main from "@/components/ui/layout/Main";
 import PageTitle from "@/components/ui/layout/PageTitle";
 import BookingsList from "@/app/(private)/my-bookings/components/BookingsList";
 import {getUserBookings} from "@/app/(private)/my-bookings/actions";
+import {Metadata} from "next";
+
+export const metadata: Metadata = { title: 'Mes réservations' }
 
 export default async function MyBookings() {
     const bookings = await getUserBookings();
@@ -17,7 +20,6 @@ export default async function MyBookings() {
             {!("error" in bookings) &&
                 <BookingsList bookings={bookings}/>
             }
-
         </Main>
     )
 }

@@ -3,12 +3,13 @@ import Main from "@/components/ui/layout/Main";
 import {getTrip} from "@/app/(private)/trips/[id]/actions";
 import TripDescription from "@/app/(private)/trips/[id]/components/TripDescription";
 import {auth} from "@/lib/auth";
-import {forEach} from "eslint-config-next";
+import {Metadata} from "next";
 
-export default async function TripPage({ params, searchParams }: Readonly<{ params: { id: string }, searchParams: { from: string } }>) {
+export const metadata: Metadata = { title: 'Détails du trajet' }
+
+export default async function TripPage({ params }: Readonly<{ params: { id: string }}>) {
     // récupération des paramètres
     const { id } = await params;
-    const { from } = await searchParams;
     const trip = await getTrip(id)
     if(!trip || 'error' in trip) {
         return (

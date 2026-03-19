@@ -14,7 +14,6 @@ export default function ManufacturerInput({value, onSelect}: Readonly<Manufactur
     // taper au moins 2 caractères
     useEffect(() => {
         if (query.length < 2) {
-            setSuggestions([])
             return
         }
         // fetch à chaque frappe
@@ -38,7 +37,11 @@ export default function ManufacturerInput({value, onSelect}: Readonly<Manufactur
                 id={"car_manufacturer"}
                 type="text"
                 value={query}
-                onChange={e => setQuery(e.target.value)}
+                onChange={e => {
+                    setSuggestions([])
+                    setQuery(e.target.value)
+                }}
+
                 placeholder="Marque de votre voiture"
                 className="block w-full rounded-md border py-1.5 px-3 text-sm text-black mt-2"
             />

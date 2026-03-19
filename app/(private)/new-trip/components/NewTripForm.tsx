@@ -1,14 +1,12 @@
 'use client'
 
-import React, {FormEvent, startTransition, useActionState, useState} from "react";
+import React, {startTransition, useActionState, useState} from "react";
 import AddressAutocompleteInput from "@/app/(private)/new-trip/components/AddressAutocompleteInput";
 import InputGroup from "@/components/ui/form-controls/InputGroup";
 import Link from "next/link";
 import Button from "@/components/ui/form-controls/Button";
 import {ActionResult} from "next/dist/shared/lib/app-router-types";
 import {saveNewTrip} from "@/app/(private)/new-trip/actions";
-import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
-import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
 
 export default function NewTripForm() {
@@ -41,7 +39,7 @@ export default function NewTripForm() {
         seats: ""
     })
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         startTransition(() => dispatch(formData));
     }

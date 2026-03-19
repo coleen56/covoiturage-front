@@ -7,6 +7,7 @@ import { loginAction, ActionState } from "../actions";
 import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
 import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
 import Button from "@/components/ui/form-controls/Button";
+import StateAlerts from "@/components/ui/alerts/StateAlerts";
 
 export const metadata: Metadata = { title: 'Connexion' }
 
@@ -17,12 +18,7 @@ export default function LoginForm() {
         <div className='flex flex-col items-center rounded-md justify-center w-fit h-fit m-auto p-8 shadow-2xl border border-gray-100'>
             <h2 className='text-3xl'>Authentification</h2>
 
-            {'error' in (state ?? {}) && (
-                <ErrorAlert message={(state as { error: string }).error} />
-            )}
-            {'success' in (state ?? {}) && (
-                <SuccessAlert message={(state as unknown as { success: string }).success} />
-            )}
+            <StateAlerts state={state} />
 
             <form className='flex flex-col items-center justify-center min-w-fit' action={formAction}>
                 <div className='flex flex-col items-baseline justify-center w-fit mt-5'>
@@ -31,7 +27,7 @@ export default function LoginForm() {
                 </div>
                 <div className='flex flex-col items-baseline justify-center w-fit mt-5'>
                     <label htmlFor={'password'}>Password</label>
-                    <input type={"password"} className='bg-gray-200 mt-1 rounded-md text-lg p-1' placeholder='•••••••••' name={'password'} id={"password"}/>
+                    <input type={"password"} className='bg-gray-200 mt-1 rounded-md text-lg p-1' placeholder='' name={'password'} id={"password"}/>
                     <a className='mt-2 text-sm underline' href={"/forgot-password"}>Mot de passe oublié ?</a>
                 </div>
                 <div className='flex flex-row items-center justify-between w-fit mt-4 space-x-6'>

@@ -11,9 +11,8 @@ interface ResultsListProps {
 }
 
 export default function ResultsList({ state }: Readonly<ResultsListProps>) {
-    console.log("state", state)
     if (!state || 'error' in state) {
-        return <div className="mt-4"><p>{state?.error ?? ''}</p></div>
+        return <div className="mt-4"><h1>{state?.error ?? 'Une erreur est survenue'}</h1></div>
     }
 
     // on garde les trajets non passés, non annulés, et dont le nombre de places restantes est supérieur à 0

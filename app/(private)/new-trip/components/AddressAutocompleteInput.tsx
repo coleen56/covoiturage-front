@@ -16,13 +16,11 @@ export default function AddressAutocompleteInput(props: Readonly<AddressInputPro
 
     // taper au moins 2 caractères
     useEffect(() => {
-        if (query.length < 2) {
-            setSuggestions([])
-            return
-        }
-        // fetch à chaque frappe
+        if (query.length < 2) return  // ← plus de setSuggestions ici
+
         getAddresses(query).then(setSuggestions)
     }, [query])
+
     return (
         <div className="relative">
             <label htmlFor={props.name} className="block text-sm/6 font-medium text-black">{props.label}</label>
@@ -31,7 +29,10 @@ export default function AddressAutocompleteInput(props: Readonly<AddressInputPro
                 id={props.name}
                 type="text"
                 value={query}
-                onChange={e => setQuery(e.target.value)}
+                onChange={e => {
+                    setQuery(e.target.value)
+                    if (e.target.value.length < 2) setSuggestions([])
+                }}
                 placeholder={props.placeholder}
                 className="block w-full rounded-md border py-1.5 px-3 text-sm text-black"
             />
