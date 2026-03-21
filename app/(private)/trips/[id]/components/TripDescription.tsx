@@ -79,7 +79,8 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
                     )}
                 </ul>
             </div>
-            {/*    form pour user ni passager ni driver */}
+            <div className={"mt-5"}>
+                {/*    form pour user ni passager ni driver */}
                 {!isDriver && !isPassenger && (
                     <BookingFormButtons tripId={trip.id} driverId={trip.driver.id} onStateChange={setBookingState}/>
                 )}
@@ -91,6 +92,7 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
                 {isPassenger && userBooking != undefined && (
                     <PassengerFormButtons booking={userBooking} onStateChange={setCancelBookingState}/>
                 )}
+            </div>
         </>
     )
 }

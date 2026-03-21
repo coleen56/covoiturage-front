@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Manufacturer} from "@/types/carpool";
 import {getManufacturers} from "@/app/(private)/profile/actions";
+import {inputDivStyle, inputLabelStyle, inputStyle, suggestionItemStyle, suggestionsContainerStyle} from "@/lib/styles";
 
 interface ManufacturerInputProps {
     value: string
@@ -10,9 +11,15 @@ interface ManufacturerInputProps {
 export default function ManufacturerInput({value, onSelect}: Readonly<ManufacturerInputProps>) {
     const [query, setQuery] = useState(value)
     const [suggestions, setSuggestions] = useState<Manufacturer[]>([])
+    const isSelecting = useRef(true)
 
     // taper au moins 2 caractères
     useEffect(() => {
+        if (isSelecting.current) {
+            isSelecting.current = false
+            return
+        }
+
         if (query.length < 2) {
             return
         }
@@ -30,33 +37,35 @@ export default function ManufacturerInput({value, onSelect}: Readonly<Manufactur
 
     return (
         <div className="relative">
-            <label htmlFor={"car_manufacturer"} className="block text-sm/6 font-medium text-black">Marque*</label>
+            <label htmlFor={"car_manufacturer"} className={inputLabelStyle}>Marque*</label>
+            <div className={`${inputDivStyle} bg-gray-200 text-black`}>
                 <input
                     onBlur={handleBlur}
-                name={"car_manufacturer"}
-                id={"car_manufacturer"}
-                type="text"
-                value={query}
-                onChange={e => {
-                    setSuggestions([])
-                    setQuery(e.target.value)
-                }}
-
-                placeholder="Marque de votre voiture"
-                className="block w-full rounded-md border py-1.5 px-3 text-sm text-black mt-2"
-            />
+                    name={"car_manufacturer"}
+                    id={"car_manufacturer"}
+                    type="text"
+                    value={query}
+                    onChange={e => {
+                        setSuggestions([])
+                        setQuery(e.target.value)
+                    }}
+                    placeholder="Marque de votre voiture"
+                    className={inputStyle}
+                />
+            </div>
             {suggestions.length > 0 && (
-                <ul className="absolute z-10 w-full bg-white border rounded-md shadow mt-1">
+                <ul className={suggestionsContainerStyle}>
                     {suggestions.map(m => (
                         <li
                             key={m.id}
                             onMouseDown={e => e.preventDefault()}
                             onClick={() => {
+                                isSelecting.current = true
                                 onSelect(m.id, m.name!)
                                 setQuery(m.name!)
                                 setSuggestions([])
                             }}
-                            className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                            className={suggestionItemStyle}
                         >{m.name}
                         </li>
                     ))}

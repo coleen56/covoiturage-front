@@ -12,7 +12,7 @@ interface ResultsListProps {
 
 export default function ResultsList({ state }: Readonly<ResultsListProps>) {
     if (!state || 'error' in state) {
-        return <div className="mt-4"><h1>{state?.error ?? 'Une erreur est survenue'}</h1></div>
+        return <div className="mt-4"><h1>{state?.error ?? ''}</h1></div>
     }
 
     // on garde les trajets non passés, non annulés, et dont le nombre de places restantes est supérieur à 0
@@ -27,15 +27,17 @@ export default function ResultsList({ state }: Readonly<ResultsListProps>) {
     }
 
     return (
-        <div className="mt-4">
+        <>
             {incomingTrips
                 .map((trip: Trip) => (
-                    <TripCard trip={trip} key={trip.id}>
-                        <Link className="flex flex-row justify-center items-center" href={`/trips/${trip.id}`}>
-                            <Button theme={"dark"} label={"Réserver"} type={"button"} />
-                        </Link>
-                    </TripCard>
+                    <div className="mt-4" key={trip.id}>
+                        <TripCard trip={trip}>
+                            <Link className="flex flex-row justify-center items-center mt-3" href={`/trips/${trip.id}`}>
+                                <Button theme={"dark"} label={"Réserver"} type={"button"} />
+                            </Link>
+                        </TripCard>
+                    </div>
             ))}
-        </div>
+        </>
     )
 }

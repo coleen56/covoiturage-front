@@ -35,6 +35,24 @@ export async function getAddresses(query: string): Promise<Address[]> {
 }
 
 export async function saveNewTrip(formData: NewTripFormData): Promise<ActionState> {
+    const { startingAddress, arrivalAddress, departureDatetime, length, seats } = formData
+
+    if (!startingAddress.streetname || !startingAddress.city.name || !startingAddress.city.zipCode) {
+        return { error: "L'adresse de départ est incomplète." }
+    }
+    if (!arrivalAddress.streetname || !arrivalAddress.city.name || !arrivalAddress.city.zipCode) {
+        return { error: "L'adresse d'arrivée est incomplète." }
+    }
+    if (!departureDatetime) {
+        return { error: "La date et l'heure de départ sont obligatoires." }
+    }
+    if (!length || Number(length) <= 0) {
+        return { error: "La distance doit être supérieure à 0." }
+    }
+    if (!seats || Number(seats) <= 0 || Number(seats) > 10) {
+        return { error: "Le nombre de places doit être compris entre 1 et 10." }
+    }
+
     const currentUserId = await auth.getCurrentUserIdServer();
     const newTrip = {
         "person_id": currentUserId,
@@ -55,6 +73,7 @@ export async function saveNewTrip(formData: NewTripFormData): Promise<ActionStat
 
         }
     }
+    console.log(newTrip);
     try {
         await saveTrip(newTrip);
         return { success : "Le trajet a été enregistré avec succès !"}

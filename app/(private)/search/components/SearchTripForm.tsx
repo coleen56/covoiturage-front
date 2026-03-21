@@ -5,6 +5,7 @@ import React, {startTransition, useState} from "react";
 import CityAutocompleteInput from "@/components/ui/form-controls/CityAutocompleteInput";
 import {TripFormData} from "@/app/(private)/search/actions";
 import Button from "@/components/ui/form-controls/Button";
+import Loader from "@/components/ui/form-controls/Loader";
 
 interface SearchTripFormProps {
     dispatch: (data: TripFormData) => void
@@ -35,16 +36,21 @@ export default function SearchTripForm({dispatch, isPending}: Readonly<SearchTri
                                    onSelect={(name) => setFormData(prev => ({
                            ...prev,
                            startingCity: name,
-                       }))}/>
+                       }))} onChange={(value) => setFormData(prev => ({ ...prev, startingCity: value }))}/>
 
             <CityAutocompleteInput name={"arrivalCity"} label={"Ville d'arrivée"} placeholder={"Ville d'arrivée"} value={formData.arrivalCity}
                                    onSelect={(name) => setFormData(prev => ({
                            ...prev,
                            arrivalCity: name,
-                       }))}/>
+                       }))} onChange={(value) => setFormData(prev => ({ ...prev, arrivalCity: value }))}/>
             <InputGroup label={"Date du trajet"} value={formData.tripDate} name={"tripDate"} id={"tripDate"} type={"date"} placeholder={"Date du trajet"} onChange={handleChange}/>
-            <Button theme={"dark"} label={"Rechercher"} type={"submit"} />
-            <p hidden={!isPending}>Recherche en cours...</p>
+            <div className={"mt-4 mx-auto flex flex-row items-start align-middle"}>
+                <Button theme={"dark"} label={"Rechercher"} type={"submit"} />
+
+            {isPending && (
+                <Loader />
+            )}
+            </div>
         </form>
     )
 }

@@ -6,6 +6,7 @@ import {getDrivenTrips} from "@/app/(private)/my-trips/actions";
 import Button from "@/components/ui/form-controls/Button";
 import Link from "next/link";
 import {Metadata} from "next";
+import NewTripFab from "@/app/(private)/my-trips/components/NewTripFab";
 
 export const metadata: Metadata = { title: 'Mes trajets' }
 
@@ -21,13 +22,7 @@ export default async function MyTripsPage() {
             <PageTitle>
                 Mes trajets
             </PageTitle>
-            <div className={"w-100 flex flex-row justify-end"}>
-                <Link href={"new-trip"}>
-                    <Button theme={"dark"} label={"Créer un trajet"} type={"button"} >
-                        <FaPlus className={"inline mr-2"}/>
-                    </Button>
-                </Link>
-            </div>
+            <NewTripFab />
             <TripsList trips={trips} />
         </Main>
     )

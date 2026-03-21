@@ -4,18 +4,20 @@ interface ButtonProps {
     type : "submit" | "reset" | "button" | undefined,
     onClick?: () => void,
     children?: React.ReactNode
+    disabled?: boolean
 }
 
-export default function Button( { theme, label, type, onClick, children }: Readonly<ButtonProps>) {
+export default function Button( { theme, label, type, onClick, children, disabled }: Readonly<ButtonProps>) {
+    const commonClasses = 'ms-0 me-0 px-4 py-1 flex flex-row items-center justify-center text-xl rounded-md hover:cursor-pointer';
     let classes;
     switch(theme) {
-        case "dark": classes = 'mt-5 bg-black text-white px-4 py-1 rounded-md hover:cursor-pointer flex flex-row items-center justify-center';
+        case "dark": classes = `${commonClasses} bg-black text-white `;
         break;
-        case "light": classes = 'mt-5 bg-white text-black border hover:bg-neutral-700 hover:text-white hover:cursor-pointer border-black px-4 py-1 rounded-md flex flex-row items-center justify-center';
+        case "light": classes = `${commonClasses} bg-white text-black border hover:bg-neutral-700 hover:text-white border-black`;
         break;
-        case "danger": classes = 'mt-5 bg-red-800 text-white px-4 py-1 rounded-md flex flex-row items-center justify-center';
+        case "danger": classes = `${commonClasses} bg-red-800 text-white `;
     }
     return (
-        <button type={type} className={classes} onClick={onClick} >{children} {label}</button>
+        <button type={type} className={classes} onClick={onClick} disabled={disabled}>{children} {label}</button>
     )
 }

@@ -14,11 +14,11 @@ export default function TripsList({ trips }: Readonly<{ trips: Trip[] }>) {
     }
 
     return (
-        <div className="mt-4">
+        <div className="mt-4 space-y-3">
             {trips
                 .map((trip: Trip) => (
                     <TripCard trip={trip} key={trip.id}>
-                        <Link className="flex flex-row justify-center items-center" href={`/trips/${trip.id}`}>
+                        <Link className="flex flex-row justify-center items-center mt-3" href={`/trips/${trip.id}`}>
                             <Button theme={"dark"} label={"Détails"} type={"button"} />
                         </Link>
                     </TripCard>

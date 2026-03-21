@@ -4,40 +4,30 @@ import { registerAction } from "../actions";
 import {useActionState} from "react";
 import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
 import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
+import StateAlerts from "@/components/ui/alerts/StateAlerts";
+import AuthContainer from "@/components/ui/display/AuthContainer";
+import InputGroup from "@/components/ui/form-controls/InputGroup";
+import Button from "@/components/ui/form-controls/Button";
+import FormLink from "@/components/ui/form-controls/FormLink";
+import AuthForm from "@/components/ui/form-controls/AuthForm";
 
 
 export default function RegisterForm() {
     const [state, formAction] = useActionState(registerAction, null)
 
     return (
-        <div className='flex flex-col items-center rounded-md justify-center w-fit h-fit m-auto p-8 shadow-2xl border border-gray-100'>
-            <h2 className='text-3xl'>Créer un compte</h2>
+        <AuthContainer title={"Créer un compte"}>
+            <StateAlerts state={state} />
 
-            {'error' in (state ?? {}) && (
-                <ErrorAlert message={(state as { error: string }).error} />
-            )}
-            {'success' in (state ?? {}) && (
-                <SuccessAlert message={(state as unknown as { success: string }).success} />
-            )}
-
-            <form className='flex flex-col items-center justify-center min-w-fit' action={formAction}>
-                <div className='flex flex-col items-baseline justify-center w-fit mt-5'>
-                    <label htmlFor={'email'}>Email</label>
-                    <input type={"text"} placeholder='example@gmail.com' name={'email'} id={"email"} className='bg-gray-200 mt-1 rounded-md text-lg p-1'/>
-                </div>
-                <div className='flex flex-col items-baseline justify-center w-fit mt-5'>
-                    <label htmlFor={'password'}>Mot de passe</label>
-                    <input type={"password"} className='bg-gray-200 mt-1 rounded-md text-lg p-1' placeholder='••••••' name={'password'} id={"password"}/>
-                </div>
-                <div className='flex flex-col items-baseline justify-center w-fit mt-5'>
-                    <label htmlFor={'password-conf'}>Confirmer le mot de passe</label>
-                    <input type={"password"} className='bg-gray-200 mt-1 rounded-md text-lg p-1' placeholder='••••••' name={'password-conf'} id={"password-conf"}/>
-                </div>
+            <AuthForm action={formAction} >
+                <InputGroup label={"Email"} name={"email"} id={"email"} type={"email"} placeholder={"example@gmail.com"} />
+                <InputGroup label={"Mot de passe"} name={"password"} id={"password"} type={"password"} placeholder={""} />
+                <InputGroup label={"Confirmation du mot de passe"} name={"password-conf"} id={"password-conf"} type={"password"} placeholder={""}/>
                 <div className='flex flex-col items-center justify-center w-fit mt-5 space-x-6 space-y-2'>
-                    <button type='submit' className='bg-black text-white px-4 py-1 rounded-md hover:cursor-pointer mx-0'>Créer mon compte</button>
-                    <a href={"/login"} className='text-sm underline'>Déjà inscrit ? Je me connecte</a>
+                    <Button theme={"dark"} label={"Créer mon compte"} type={"submit"} />
+                    <FormLink href={"/login"} text={"Déjà inscrit ? Connexion"} />
                 </div>
-            </form>
-        </div>
+            </AuthForm>
+        </AuthContainer>
     )
 }

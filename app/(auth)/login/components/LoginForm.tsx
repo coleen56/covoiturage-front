@@ -8,6 +8,9 @@ import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
 import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
 import Button from "@/components/ui/form-controls/Button";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
+import InputGroup from "@/components/ui/form-controls/InputGroup";
+import FormLink from "@/components/ui/form-controls/FormLink";
+import AuthForm from "@/components/ui/form-controls/AuthForm";
 
 export const metadata: Metadata = { title: 'Connexion' }
 
@@ -15,28 +18,19 @@ export default function LoginForm() {
     const [state, formAction] = useActionState<ActionState, FormData>(loginAction, null)
 
     return (
-        <div className='flex flex-col items-center rounded-md justify-center w-fit h-fit m-auto p-8 shadow-2xl border border-gray-100'>
-            <h2 className='text-3xl'>Authentification</h2>
-
+        <>
             <StateAlerts state={state} />
 
-            <form className='flex flex-col items-center justify-center min-w-fit' action={formAction}>
-                <div className='flex flex-col items-baseline justify-center w-fit mt-5'>
-                    <label htmlFor={'email'}>Email</label>
-                    <input type={"text"} placeholder='example@gmail.com' name={'email'} id={"email"} className='bg-gray-200 mt-1 rounded-md text-lg p-1'/>
-                </div>
-                <div className='flex flex-col items-baseline justify-center w-fit mt-5'>
-                    <label htmlFor={'password'}>Password</label>
-                    <input type={"password"} className='bg-gray-200 mt-1 rounded-md text-lg p-1' placeholder='' name={'password'} id={"password"}/>
-                    <a className='mt-2 text-sm underline' href={"/forgot-password"}>Mot de passe oublié ?</a>
-                </div>
-                <div className='flex flex-row items-center justify-between w-fit mt-4 space-x-6'>
+            <AuthForm action={formAction} >
+                <InputGroup label={"Email"} name={"email"} id={"email"} type={"email"} placeholder={"example@gmail.com"} />
+                <InputGroup label={"Mot de passe"} name={"password"} id={"password"} type={"password"} placeholder={""} />
+                <FormLink href={"/forgot-password"} text={"Mot de passe oublié ?"}/>
+                <div className='flex flex-row items-center justify-between w-fit mt-4 gap-4'>
+                    <Link href={"/register"} className="inline-block"><Button theme={"light"} label={"Register"} type={"button"} /></Link>
                     <Button theme={"dark"} label={"Login"} type={"submit"}/>
-                    <Link type='button'
-                          className='mt-5 bg-white text-black border hover:bg-neutral-700 hover:text-white hover:cursor-pointer border-black px-4 py-1 rounded-md'
-                          href={"/register"}>Register</Link>
                 </div>
-            </form>
-        </div>
+            </AuthForm>
+        </>
+
     )
 }

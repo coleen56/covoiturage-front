@@ -9,6 +9,10 @@ import Button from "@/components/ui/form-controls/Button";
 import {ActionResult} from "next/dist/shared/lib/app-router-types";
 import {UserFormData, saveNewProfile, saveNewCar, CarFormData} from "@/app/(private)/profile/actions";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
+import Loader from "@/components/ui/form-controls/Loader";
+import {LogOut, Plus} from "lucide-react";
+import Link from "next/link";
+import logoutAction from "@/app/(auth)/(logout)/actions";
 
 export default function ProfileForm({user} : Readonly<{ user: User }>) {
     const [userState, dispatchUser, isPendingUser] = useActionState<ActionResult, UserFormData>(
@@ -80,6 +84,11 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
     
     return (
         <>
+            <form action={logoutAction}>
+                <button type={"submit"} className="fixed top-4 right-4 z-40 bg-red-800 text-white rounded-full p-4 shadow-lg hover:cursor-pointer">
+                    <LogOut size={24} />
+                </button>
+            </form>
             <StateAlerts state={userState} />
             <div className="mb-3"></div>
             <p>Date d&#39;inscription : {formattedDate}</p>
@@ -89,9 +98,12 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
                 <InputGroup label={"Prénom"} value={userFormData.firstname} name={"firstname"} id={"firstname"} type={"text"} placeholder={"Entrez votre prénom"} onChange={handleUserChange} />
                 <InputGroup label={"Nom"} value={userFormData.lastname} name={"lastname"} id={"lastname"} type={"text"} placeholder={"Entrez votre nom"} onChange={handleUserChange} />
                 <InputGroup label={"Téléphone"} value={userFormData.phone} name={"phone"} id={"phone"} type={"phone"} placeholder={"Entrez votre téléphone"} onChange={handleUserChange} />
-                <div className="flex flex-row justify-between">
-                    <Button theme={"danger"} label={"Supprimer mes données"} type={"button"} />
-                    <Button theme={"dark"} label={isPendingUser ? "Enregistrement..." : "Enregistrer"} type={"submit"} />
+                <div className="flex flex-row gap-2">
+                    <Button theme={"danger"} label={"Supprimer"} type={"button"} />
+                    <Button theme={"dark"} label={"Enregistrer"} type={"submit"} />
+                    {isPendingUser && (
+                        <Loader />
+                    )}
                 </div>
                 <hr/>
             </form>
@@ -108,8 +120,11 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
                     }))}
                 />
                 <CarDescInput label={"Description de la voiture"} value={carFormData.car_description} name={"car_description"} id={"car_description"} placeholder={"Décrivez votre voiture..."} rows={5} onChange={handleCarChange}/>
-                <div className="flex flex-row justify-between">
-                    <Button theme={"dark"} label={isPendingCar ? "Enregistrement..." : "Enregistrer"} type={"submit"} />
+                <div className="flex flex-row">
+                    <Button theme={"dark"} label={"Enregistrer"} type={"submit"} />
+                    {isPendingCar && (
+                        <Loader />
+                    )}
                 </div>
             </form>
         </>

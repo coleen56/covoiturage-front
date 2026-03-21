@@ -1,7 +1,7 @@
 import BookingCard from "@/components/ui/display/BookingCard";
 import {getTripsAsPassenger} from "@/lib/carpool";
 import Link from "next/link";
-import {FaCar} from "react-icons/fa";
+import Button from "@/components/ui/form-controls/Button";
 
 export default async function TripList() {
     let bookings;
@@ -36,10 +36,10 @@ export default async function TripList() {
             )
         } else {
             return (
-                <>
-                    <h1 className="mb-3 text-xl">Aucun trajet à venir pour le moment.</h1>
-                    <Link href={"/search"} className="bg-gray-800 text-white px-3 py-1 rounded-lg flex flex-row items-center justify-center"><FaCar className="me-3" />Je réserve un trajet</Link>
-                </>
+                <div className={"flex flex-col items-center gap-6"}>
+                    <h1 className="mb-3 text-xl text-center">Vous n&#39;avez pas de trajet prévu pour le moment.</h1>
+                    <Link href={"/search"} className={"inline-block"}><Button theme={"dark"} label={"Je réserve un trajet !"} type={"button"} /></Link>
+                </div>
             )
         }
     }
