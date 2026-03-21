@@ -16,7 +16,7 @@ export default function MessageBodyInput(props: Readonly<MessageBodyInputProps>)
             <label htmlFor={props.name} className={inputLabelStyle}>{props.label}</label>
             <div className="">
                 <div
-                    className={inputDivStyle}>
+                    className={`${inputDivStyle} bg-gray-200 text-black`}>
                         <textarea id={props.id} name={props.name} placeholder={props.placeholder} value={props.value}
                                   onChange={props.onChange} rows={props.rows}
                                   className={inputNoHeightStyle}/>
