@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Home, CarTaxiFront, Search, Ticket, User } from 'lucide-react'
 

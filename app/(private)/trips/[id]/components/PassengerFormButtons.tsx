@@ -17,7 +17,7 @@ export default function PassengerFormButtons({booking, onStateChange}: Readonly<
                 router.refresh();
             }
         }
-    }, [cancelState]);
+    }, [cancelState, onStateChange, router]);
 
     return (
         <form action={cancelAction}>

@@ -8,11 +8,11 @@ import BookingFormButtons from "@/app/(private)/trips/[id]/components/BookingFor
 import DriverFormButtons from "@/app/(private)/trips/[id]/components/DriverFormButtons";
 import PassengerFormButtons from "@/app/(private)/trips/[id]/components/PassengerFormButtons";
 import Link from "next/link";
-import {FaRegEnvelope} from "react-icons/fa";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
 import {useRouter} from "next/navigation";
+import {Mail, Phone} from "lucide-react";
 
-export default function TripDescription({trip, isDriver, isPassenger, userBooking}: Readonly<{ trip: Trip, isDriver: boolean, isPassenger: boolean, userBooking?: Booking }>) {
+export default function TripDescription({trip, isDriver, isPassenger, userBooking, currentUserId}: Readonly<{ trip: Trip, isDriver: boolean, isPassenger: boolean, userBooking?: Booking, currentUserId: number|null }>) {
     const router = useRouter();
     const [cancelState, setCancelState] = useState<ActionState>(null);
     const [bookingState, setBookingState] = useState<ActionState>(null);
@@ -64,13 +64,20 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
                 <h1 className={"font-bold underline underline-offset-4 mb-2"}>Passagers : </h1>
                 <ul>
                 { currentBookings.map(booking => (
-                    <li key={booking.id} className={"flex flex-row items-center"}>{booking.passenger.firstname + ' ' + booking.passenger.lastname}
-                        {isDriver && (
-                            <CancelBookingForm booking={booking} onStateChange={setCancelState} trip={trip}/>
+                    <li key={booking.id} className={"flex flex-row items-center justify-between mt-1"}>{booking.passenger.firstname + ' ' + booking.passenger.lastname}
+                        {currentUserId !== booking.passenger.id && (
+                            <div className={"flex flex-row items-center gap-2"}>
+                                {isDriver && (
+                                    <CancelBookingForm booking={booking} onStateChange={setCancelState} trip={trip}/>
+                                )}
+                                <Link href={`/message?to=${booking.passenger.id}`} className={"text-3xl bg-black rounded-md shadow-lg"}>
+                                    <Mail className={"m-2 text-white"} />
+                                </Link>
+                                <Link href={`tel:${booking.passenger.phone}`} className={"text-3xl bg-white rounded-md shadow-lg"}>
+                                    <Phone className={"m-2 text-black"} />
+                                </Link>
+                            </div>
                         )}
-                        <Link href={`/message?to=${booking.passenger.id}`} className={"ms-5 text-3xl"}>
-                            <FaRegEnvelope />
-                        </Link>
                     </li>
                 ))}
                     {/*si pas de passager*/}
@@ -90,7 +97,7 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
                 )}
                 {/*form pour passager*/}
                 {isPassenger && userBooking != undefined && (
-                    <PassengerFormButtons booking={userBooking} onStateChange={setCancelBookingState}/>
+                    <PassengerFormButtons booking={userBooking} onStateChange={setCancelBookingState} />
                 )}
             </div>
         </>

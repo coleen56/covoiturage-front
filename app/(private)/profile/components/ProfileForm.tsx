@@ -101,7 +101,7 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
                 isOpen={isModalOpen}
                 onConfirm={async () => {
                     const res = await deleteUser()
-                    if("success" in res) {
+                    if(res.success) {
                         await logoutAction()
                     }
                     setIsModalOpen(false)

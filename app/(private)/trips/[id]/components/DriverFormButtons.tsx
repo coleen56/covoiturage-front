@@ -20,7 +20,7 @@ export default function DriverFormButtons({ driverId, tripId, onStateChange, act
                 router.refresh();
             }
         }
-    }, [cancelState]);
+    }, [cancelState, onStateChange, router]);
 
     return (
         <form action={cancelAction}>

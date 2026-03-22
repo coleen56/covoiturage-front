@@ -39,7 +39,7 @@ export default async function TripPage({ params }: Readonly<{ params: { id: stri
             <PageTitle>
                 Détails du trajet
             </PageTitle>
-            <TripDescription trip={trip} isDriver={isDriver} isPassenger={isPassenger} userBooking={userBooking ?? undefined} />
+            <TripDescription trip={trip} isDriver={isDriver} isPassenger={isPassenger} userBooking={userBooking ?? undefined} currentUserId={currentUserId} />
 
         </Main>
     )

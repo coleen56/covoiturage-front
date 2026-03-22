@@ -1,3 +1,5 @@
+'use server'
+
 import { auth } from "./auth";
 import logoutAction from "@/app/(auth)/(logout)/actions";
 
