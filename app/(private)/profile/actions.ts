@@ -78,7 +78,7 @@ export async function saveNewCar(data: CarFormData): Promise<{error: string, suc
 export async function deleteUser() {
     const currentUserId = await auth.getCurrentUserIdServer();
     try {
-        if(currentUserId) { ²
+        if(currentUserId) {
             await softDeleteUser(currentUserId)
             await logoutAction()
         }
