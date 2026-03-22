@@ -6,7 +6,7 @@ import InputGroup from "@/components/ui/form-controls/InputGroup";
 import Link from "next/link";
 import Button from "@/components/ui/form-controls/Button";
 import {ActionResult} from "next/dist/shared/lib/app-router-types";
-import {saveNewTrip} from "@/app/(private)/new-trip/actions";
+import {calculateTripLength, saveNewTrip} from "@/app/(private)/new-trip/actions";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
 import Loader from "@/components/ui/form-controls/Loader";
 
@@ -15,12 +15,15 @@ export default function NewTripForm() {
         async (_, data) => await saveNewTrip(data),
         null
     )
+    const [isCalculating, setIsCalculating] = useState(false);
 
     const [formData, setFormData] = useState({
         fullStartingAddress: "",
         startingAddress: {
             number: "",
             streetname: "",
+            lat: null as number | null,
+            lon: null as number | null,
             city: {
                 zipCode: "",
                 name: "",
@@ -30,6 +33,8 @@ export default function NewTripForm() {
         arrivalAddress: {
             number: "",
             streetname: "",
+            lat: null as number | null,
+            lon: null as number | null,
             city: {
                 zipCode: "",
                 name: "",
@@ -49,18 +54,22 @@ export default function NewTripForm() {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
+
+
     return (
         <>
             <StateAlerts state={state} />
         <form className={"w-100 space-y-3 mt-3"} onSubmit={handleSubmit}>
             <AddressAutocompleteInput name={"startingAddress"} label={"Adresse de départ"} placeholder={"1 place Charles de Gaulle"} value={formData.fullStartingAddress}
-                                      onSelect={(number: string, streetname: string, zipCode: string, cityname: string) => {
+                                      onSelect={(number: string, streetname: string, zipCode: string, cityname: string, lat: number|null, lon: number|null) => {
                                           setFormData(prev => ({
                                               ...prev,
                                               fullStartingAddress: `${number ?? ''} ${streetname} ${zipCode} ${cityname}`,
                                               startingAddress: {
                                                   number,
                                                   streetname,
+                                                  lat,
+                                                  lon,
                                                   city: {
                                                       zipCode,
                                                       name: cityname,
@@ -70,13 +79,15 @@ export default function NewTripForm() {
                                       }}/>
 
             <AddressAutocompleteInput name={"arrivalAddress"} label={"Adresse d'arrivée"} placeholder={"55 rue Winston Churchill"} value={formData.fullArrivalAddress}
-                                      onSelect={(number: string, streetname: string, zipCode: string, cityname: string) => {
+                                      onSelect={(number: string, streetname: string, zipCode: string, cityname: string, lat: number|null, lon: number|null) => {
                                           setFormData(prev => ({
                                               ...prev,
                                               fullArrivalAddress: `${number} ${streetname} ${zipCode} ${cityname}`,
                                               arrivalAddress: {
                                                   number,
                                                   streetname,
+                                                  lat,
+                                                  lon,
                                                   city: {
                                                       zipCode,
                                                       name: cityname,
@@ -86,7 +97,21 @@ export default function NewTripForm() {
                                       }}/>
             <InputGroup label={"Date et heure du trajet"} value={formData.departureDatetime} name={"departureDatetime"} id={"departureDatetime"} type={"datetime-local"} placeholder={""} onChange={handleChange} />
             <InputGroup label={"Nombre de places"} value={formData.seats.toString()} name={"seats"} id={"seats"} type={"number"} placeholder={"2"} min={1} max={10} step={1} onChange={handleChange} />
-            <InputGroup label={"Distance"} value={formData.length.toString()} name={"length"} id={"length"} type={"number"} placeholder={"23"} onChange={handleChange} />
+            <div className={"flex flex-row"}>
+                <InputGroup label={"Distance"} value={formData.length.toString()} name={"length"} id={"length"} type={"number"} placeholder={"23"} onChange={handleChange} >
+                    <div className={"mr-2"}><Button theme={"dark"} label={isCalculating ? "..." : "Calculer"} type={"button"}  onClick={async () => {
+                        // appel api pour calculer la distance du trajet
+                        console.log("clicked")
+                        if(formData.startingAddress.lon && formData.startingAddress.lat && formData.arrivalAddress.lon && formData.arrivalAddress.lat) {
+                            setIsCalculating(true);
+                            const res = await calculateTripLength(formData.startingAddress.lon,formData.startingAddress.lat, formData.arrivalAddress.lon,formData.arrivalAddress.lat)
+                            setFormData(prev => ({ ...prev, length: res.toString() }));
+                            setIsCalculating(false);
+                        }
+                    }}/></div>
+                </InputGroup>
+
+            </div>
             <div className={"flex flex-row w-100 gap-3"}>
                 <Link href={"/my-trips"}><Button theme={"light"} label={"Retour"} type={"button"} /></Link>
                 <Button theme={"dark"} label={"Créer le trajet"} type={"submit"} disabled={isPending || state?.success === true}/>

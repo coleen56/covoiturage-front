@@ -26,10 +26,12 @@ export default async function TripList() {
             return (
                 <>
                     <h1 className="mb-3 text-xl">Vos trajets à venir :</h1>
-                    <ul>
+                    <ul className={"mt-4 flex flex-col gap-3"}>
                         {incomingBookings
                             .map(booking =>
-                                <BookingCard key={booking.id} trip={booking.trip}/>
+                                <BookingCard key={booking.id} booking={booking}>
+                                    <Link href={`/trips/${booking.trip.id}`} className={"flex flex-row justify-center items-center"}><Button theme={"dark"} label={"Détails"} type={"submit"} /></Link>
+                                </BookingCard>
                             )}
                     </ul>
                 </>

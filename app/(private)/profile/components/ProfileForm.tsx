@@ -2,19 +2,24 @@
 
 import {User} from "@/types/carpool";
 import InputGroup from "@/components/ui/form-controls/InputGroup";
-import React, {startTransition, useActionState, useState} from "react";
+import React, {startTransition, useActionState, useEffect, useState} from "react";
 import ManufacturerInput from "@/app/(private)/profile/components/ManufacturerInput";
 import CarDescInput from "@/app/(private)/profile/components/CarDescInput";
 import Button from "@/components/ui/form-controls/Button";
 import {ActionResult} from "next/dist/shared/lib/app-router-types";
-import {UserFormData, saveNewProfile, saveNewCar, CarFormData} from "@/app/(private)/profile/actions";
+import {UserFormData, saveNewProfile, saveNewCar, CarFormData, deleteUser} from "@/app/(private)/profile/actions";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
 import Loader from "@/components/ui/form-controls/Loader";
-import {LogOut, Plus} from "lucide-react";
-import Link from "next/link";
+import {LogOut} from "lucide-react";
 import logoutAction from "@/app/(auth)/(logout)/actions";
+import {useRouter} from "next/navigation";
+import ConfirmationModal from "@/app/(private)/profile/components/ConfirmationModal";
 
 export default function ProfileForm({user} : Readonly<{ user: User }>) {
+    const router = useRouter()
+    // affichage de la modale de confirmation
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
     const [userState, dispatchUser, isPendingUser] = useActionState<ActionResult, UserFormData>(
         async (_, data) => await saveNewProfile(data),
         null
@@ -24,6 +29,14 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
         async (_, data) => await saveNewCar(data),
         null
     )
+
+    // refresh la page si le submit de l'un des formulaire réussit
+    useEffect(() => {
+        if (carState?.success || userState?.success) {
+            router.refresh()
+        }
+    }, [carState, userState, router])
+
 
     function handleUserSubmit(e: React.SubmitEvent) {
         e.preventDefault()
@@ -84,6 +97,14 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
     
     return (
         <>
+            <ConfirmationModal
+                isOpen={isModalOpen}
+                onConfirm={async () => {
+                    await deleteUser()
+                    setIsModalOpen(false)
+                }}
+                onCancel={() => setIsModalOpen(false)}
+            />
             <form action={logoutAction}>
                 <button type={"submit"} className="fixed top-4 right-4 z-40 bg-red-800 text-white rounded-full p-4 shadow-lg hover:cursor-pointer">
                     <LogOut size={24} />
@@ -99,7 +120,7 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
                 <InputGroup label={"Nom"} value={userFormData.lastname} name={"lastname"} id={"lastname"} type={"text"} placeholder={"Entrez votre nom"} onChange={handleUserChange} />
                 <InputGroup label={"Téléphone"} value={userFormData.phone} name={"phone"} id={"phone"} type={"phone"} placeholder={"Entrez votre téléphone"} onChange={handleUserChange} />
                 <div className="flex flex-row gap-2">
-                    <Button theme={"danger"} label={"Supprimer"} type={"button"} />
+                    <Button theme={"danger"} label={"Supprimer"} type={"button"} onClick={() => setIsModalOpen(true)}/>
                     <Button theme={"dark"} label={"Enregistrer"} type={"submit"} />
                     {isPendingUser && (
                         <Loader />

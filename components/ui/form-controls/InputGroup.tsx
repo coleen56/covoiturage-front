@@ -14,6 +14,7 @@ interface InputGroupProps {
     min?: number;
     max?: number;
     step?: number;
+    children?: React.ReactNode;
 }
 
 export default function InputGroup(props: Readonly<InputGroupProps>) {
@@ -27,7 +28,9 @@ export default function InputGroup(props: Readonly<InputGroupProps>) {
                     className={divClasses}>
                     <input id={props.id} type={props.type} name={props.name} placeholder={props.placeholder} value={props.value} onChange={props.onChange} disabled={props.disabled} min={props.min} max={props.max} step={props.step}
                            className={inputClasses}/>
+                    {props.children}
                 </div>
+
             </div>
     )
 }

@@ -2,7 +2,8 @@
 
 import {Manufacturer, Profile, User} from "@/types/carpool";
 import {auth, getUserProfile} from "@/lib/auth";
-import {createCar, getCarManufacturer, saveProfile, updateCar} from "@/lib/carpool";
+import {createCar, getCarManufacturer, saveProfile, softDeleteUser, updateCar} from "@/lib/carpool";
+import logoutAction from "@/app/(auth)/(logout)/actions";
 
 export type UserFormData = {
     email: string
@@ -56,6 +57,7 @@ export async function saveNewCar(data: CarFormData): Promise<{error: string, suc
         "brand": data.car_manufacturer_id,
         "description": data.car_description
     }
+    // console.log(car)
 
     if(!car.seats || !car.model || !car.carregistration) {
         return { error: "Les champs marqués d'un * ne peuvent être vides."}
@@ -68,6 +70,19 @@ export async function saveNewCar(data: CarFormData): Promise<{error: string, suc
             await createCar(car)
         }
         return { success : "Voiture enregistrée avec succès !"}
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : "Une erreur est survenue" }
+    }
+}
+
+export async function deleteUser() {
+    const currentUserId = await auth.getCurrentUserIdServer();
+    try {
+        if(currentUserId) { ²
+            await softDeleteUser(currentUserId)
+            await logoutAction()
+        }
+        return { success : "Votre compte a bien été supprimé."}
     } catch (error) {
         return { error: error instanceof Error ? error.message : "Une erreur est survenue" }
     }

@@ -8,7 +8,7 @@ interface AddressInputProps {
     label: string;
     placeholder: string;
     value: string
-    onSelect: (number: string, streetname: string, zipCode: string, cityname: string) => void
+    onSelect: (number: string, streetname: string, zipCode: string, cityname: string, lat: number|null, lon: number|null) => void
 }
 
 export default function AddressAutocompleteInput(props: Readonly<AddressInputProps>) {
@@ -49,10 +49,10 @@ export default function AddressAutocompleteInput(props: Readonly<AddressInputPro
                 <ul className={suggestionsContainerStyle}>
                     {suggestions.map(a => (
                         <li
-                            key={a.id ?? a.city.zipCode}
+                            key={a.id ?? a.city.name + a.streetname + a.number}
                             onClick={() => {
                                 isSelecting.current = true
-                                props.onSelect(a.number, a.streetname, a.city.zipCode, a.city.name)
+                                props.onSelect(a.number, a.streetname, a.city.zipCode, a.city.name, a.lat, a.lon)
                                 setQuery(`${a.number ?? ''} ${a.streetname} ${a.city.zipCode} ${a.city.name}`)
                                 setSuggestions([])
                             }}

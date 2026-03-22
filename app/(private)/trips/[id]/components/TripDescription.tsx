@@ -1,8 +1,6 @@
 'use client'
 
 import {Booking, Trip} from "@/types/carpool";
-import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
-import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
 import React, {useState} from "react";
 import {ActionState} from "@/app/(auth)/login/actions";
 import CancelBookingForm from "@/app/(private)/trips/[id]/components/CancelBookingForm";
@@ -12,8 +10,10 @@ import PassengerFormButtons from "@/app/(private)/trips/[id]/components/Passenge
 import Link from "next/link";
 import {FaRegEnvelope} from "react-icons/fa";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
+import {useRouter} from "next/navigation";
 
 export default function TripDescription({trip, isDriver, isPassenger, userBooking}: Readonly<{ trip: Trip, isDriver: boolean, isPassenger: boolean, userBooking?: Booking }>) {
+    const router = useRouter();
     const [cancelState, setCancelState] = useState<ActionState>(null);
     const [bookingState, setBookingState] = useState<ActionState>(null);
     const [cancelTripState, setCancelTripState] = useState<ActionState>(null);
@@ -82,7 +82,7 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
             <div className={"mt-5"}>
                 {/*    form pour user ni passager ni driver */}
                 {!isDriver && !isPassenger && (
-                    <BookingFormButtons tripId={trip.id} driverId={trip.driver.id} onStateChange={setBookingState}/>
+                    <BookingFormButtons tripId={trip.id} driverId={trip.driver.id} onStateChange={setBookingState} onGoBackClick={() => router.back()}/>
                 )}
                 {/*form pour driver*/}
                 {isDriver && (

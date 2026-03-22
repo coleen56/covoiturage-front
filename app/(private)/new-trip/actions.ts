@@ -1,7 +1,7 @@
 'use server'
 
 import {Address} from "@/types/carpool";
-import {getAddressSuggestions, saveTrip} from "@/lib/carpool";
+import {findTripLength, getAddressSuggestions, saveTrip} from "@/lib/carpool";
 import {auth} from "@/lib/auth";
 
 export type ActionState = { error: string } | { success: string } | null
@@ -54,30 +54,43 @@ export async function saveNewTrip(formData: NewTripFormData): Promise<ActionStat
     }
 
     const currentUserId = await auth.getCurrentUserIdServer();
+    const utcDatetime = new Date(formData.departureDatetime).toISOString();
     const newTrip = {
         "person_id": currentUserId,
-        "trip_datetime": formData.departureDatetime,
+        "trip_datetime": utcDatetime,
         "kms": formData.length,
         "available_seats": formData.seats,
         "starting_address": {
             "street_name": formData.startingAddress.streetname,
-            "street_number": formData.startingAddress.number,
+            "street_number": formData.startingAddress.number ?? null,
             "city_name": formData.startingAddress.city.name,
             "postal_code": formData.startingAddress.city.zipCode
         },
         "arrival_address": {
             "street_name": formData.arrivalAddress.streetname,
-            "street_number": formData.arrivalAddress.number,
+            "street_number": formData.arrivalAddress.number ?? null,
             "city_name": formData.arrivalAddress.city.name,
             "postal_code": formData.arrivalAddress.city.zipCode
 
         }
     }
-    console.log(newTrip);
+
     try {
         await saveTrip(newTrip);
         return { success : "Le trajet a été enregistré avec succès !"}
     } catch (error) {
         return { error: error instanceof Error ? error.message : "Une erreur est survenue lors de l'enregistrement du trajet." }
+    }
+}
+
+export async function calculateTripLength(lon1: number, lat1: number, lon2: number, lat2: number) {
+    try {
+        const distance = await findTripLength(lon1, lat1, lon2, lat2);
+        if(distance == null) {
+            return { error: "Erreur lors du calcul." }
+        }
+        return distance;
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : "Erreur lors du calcul."}
     }
 }

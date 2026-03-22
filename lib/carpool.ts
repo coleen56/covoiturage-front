@@ -39,8 +39,20 @@ interface TripApi {
     }
 }
 
+interface OSRMRoute {
+    // en mètres
+    distance: number;
+}
+
+interface OSRMResponse {
+    // ok si succès
+    code: string;
+    routes: OSRMRoute[];
+}
+
 const CITY_API_URL = process.env.NEXT_PUBLIC_CITY_API_URL
 const ADDRESS_API_URL = process.env.NEXT_PUBLIC_ADDRESS_API_URL
+const ROUTER_API_URL = process.env.NEXT_PUBLIC_ROUTER_API_URL
 
 export async function getTripsAsPassenger(): Promise<Array<Booking>> {
     const userId = await auth.getCurrentUserIdServer();
@@ -143,17 +155,17 @@ export async function getAddressSuggestions(query: string, limit: number): Promi
     }, ADDRESS_API_URL);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    const results: Address[] = data.features.map((f: any) => ({
+
+    return data.features.map((f: Array) => ({
         number: f.properties.housenumber,
         streetname: f.properties.street,
         city: {
             zipCode: f.properties.postcode,
             name: f.properties.city,
-        }
-    }))
-    console.log(results)
-
-    return results;
+        },
+        lon: f.geometry.coordinates[0],
+        lat: f.geometry.coordinates[1],
+    }));
 }
 
 export async function saveTrip(trip : TripApi): Promise<ApiResponse> {
@@ -173,4 +185,20 @@ export async function sendEmail(recipientId: string, senderId: string, subject: 
             "message": body
         })
     })
+}
+
+export async function findTripLength(lon1: number, lat1:number, lon2: number, lat2:number):Promise<number|null> {
+    const res = await fetchApi<OSRMResponse>(`${lon1},${lat1};${lon2},${lat2}`, {
+        method: 'GET',
+    }, ROUTER_API_URL)
+    if(res.code != "Ok") {
+        return null;
+    }
+    return Math.round(res.routes[0].distance / 1000)
+}
+
+export async function softDeleteUser(id: number): Promise<ApiResponse> {
+    return await fetchApi<ApiResponse>(`/api/persons/${id}`, {
+        method: 'DELETE'
+    });
 }

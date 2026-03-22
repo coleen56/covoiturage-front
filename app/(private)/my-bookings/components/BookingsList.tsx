@@ -1,7 +1,7 @@
 import {Booking} from "@/types/carpool";
 import Link from "next/link";
 import Button from "@/components/ui/form-controls/Button";
-import BookingCard from "@/app/(private)/my-bookings/components/BookingCard";
+import BookingCard from "@/components/ui/display/BookingCard";
 
 export default function BookingsList( { bookings }: Readonly<{ bookings: Booking[] }>) {
     if (!bookings || bookings.length === 0) {
@@ -11,7 +11,7 @@ export default function BookingsList( { bookings }: Readonly<{ bookings: Booking
     }
 
     return (
-        <div className="mt-4">
+        <div className={"mt-4 flex flex-col gap-3"}>
             {bookings
                 .map((booking: Booking) => (
                     <BookingCard booking={booking} key={booking.id}>

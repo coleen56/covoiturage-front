@@ -11,12 +11,11 @@ interface ManufacturerInputProps {
 export default function ManufacturerInput({value, onSelect}: Readonly<ManufacturerInputProps>) {
     const [query, setQuery] = useState(value)
     const [suggestions, setSuggestions] = useState<Manufacturer[]>([])
-    const isSelecting = useRef(true)
+    const isSelecting = useRef(false)
 
     // taper au moins 2 caractères
     useEffect(() => {
         if (isSelecting.current) {
-            isSelecting.current = false
             return
         }
 
@@ -28,6 +27,10 @@ export default function ManufacturerInput({value, onSelect}: Readonly<Manufactur
     }, [query])
 
     function handleBlur() {
+        if (isSelecting.current) {
+            isSelecting.current = false
+            return
+        }
         setSuggestions([])
         const match = suggestions.find(m => m.name?.toLowerCase() === query.toLowerCase())
         if (!match) {

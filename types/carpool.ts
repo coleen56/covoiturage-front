@@ -48,6 +48,8 @@ export interface Address {
     number: string
     streetname: string
     city: City
+    lon: number|null
+    lat: number|null
 }
 
 export interface City {

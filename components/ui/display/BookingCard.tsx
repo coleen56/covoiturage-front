@@ -1,46 +1,57 @@
-import {Trip} from "@/types/carpool";
-import {FaCalendarDays} from "react-icons/fa6";
-import {FaFlagCheckered} from "react-icons/fa";
-import {IoLocationOutline} from "react-icons/io5";
-import {RiPinDistanceFill} from "react-icons/ri";
-import {TbSteeringWheelFilled} from "react-icons/tb";
+import {Booking} from "@/types/carpool";
+import {ReactNode} from "react";
+import {getTrip} from "@/app/(private)/my-bookings/actions";
 
-interface TripCardProps {
-    trip: Trip
-}
+export default async function BookingCard( { booking, children }: Readonly<{booking: Booking, children: ReactNode}>) {
+    const trip = await getTrip(booking.trip.id);
+    const tripDate = new Date(booking.trip.departureDatetime)
 
-export default function BookingCard({trip}: Readonly<TripCardProps>) {
-    const date = new Date(trip.departureDatetime)
-
-    const formattedDate = date.toLocaleString('fr-FR', {
+    const formattedTripDate = tripDate.toLocaleString('fr-FR', {
         timeZone: 'Europe/Paris',
         dateStyle: 'long',
         timeStyle: 'short',
     })
 
-    const link = `/trips/${trip.id}`;
+    const bookingDate = new Date(booking.bookingDatetime)
+
+    const formattedBookingDate = bookingDate.toLocaleString('fr-FR', {
+        timeZone: 'Europe/Paris',
+        dateStyle: 'long',
+        timeStyle: 'short',
+    })
+
+    const isPast = tripDate.getTime() < new Date().getTime();
+
+    if (!trip || 'error' in trip) {
+        return <h1>Une erreur est survenue.</h1>
+    }
 
     return (
-        <a href={ link } className="bg-gray-200 block max-w-sm p-6 rounded-lg shadow-xs hover:bg-neutral-secondary-medium">
-            <div className="flex flex-row items-center py-2 space-x-2 text-3xl">
-                <FaCalendarDays />
-                <h5 className="font-semibold tracking-tight text-heading leading-8 underline underline-offset-5">{formattedDate}</h5>
-            </div>
-            <div className="flex flex-row items-center py-2 space-x-2 text-lg">
-                <IoLocationOutline />
-                <p>{trip.departure?.number}, {trip.departure?.streetname}, {trip.departure?.city.name} ({trip.departure?.city.zipCode})</p>
-            </div>
-            <div className="flex flex-row items-center py-2 space-x-2 text-lg">
-                <FaFlagCheckered /><p>{trip.arrival?.number}, {trip.arrival?.streetname}, {trip.arrival?.city.name} ({trip.arrival?.city.zipCode})</p>
-            </div>
-            <div className="flex flex-row items-center py-2 space-x-2 text-lg">
-                <RiPinDistanceFill />
-                <p>{trip.length} km</p>
-            </div>
-            <div className="flex flex-row items-center py-2 space-x-2 text-lg">
-                <TbSteeringWheelFilled />
-                <p>{trip.driver.firstname} {trip.driver.lastname}</p>
-            </div>
-        </a>
+        <div className="bg-gray-200 block w-100 p-6 rounded-lg shadow-xs hover:bg-neutral-secondary-medium">
+            {booking.trip.isCancelled && (
+                <span
+                    className="inline-flex items-center rounded-md bg-red-800/10 px-2 py-1 text-md font-medium text-red-800 inset-ring inset-ring-red-800/20 mb-3">Trajet annulé</span>
+            )}
+            {booking.isCancelled && (
+                <span
+                    className="inline-flex items-center rounded-md bg-red-800/10 px-2 py-1 text-md font-medium text-red-800 inset-ring inset-ring-red-800/20 mb-3">Réservation annulée</span>
+            )}
+            {!booking.isCancelled && !isPast && !booking.trip.isCancelled && (
+                <span
+                    className="inline-flex items-center rounded-md bg-green-800/10 px-2 py-1 text-md font-medium text-green-800 inset-ring inset-ring-green-800/20 mb-3">Trajet maintenu</span>
+            )}
+            {isPast && !booking.isCancelled && (
+                <span
+                    className="inline-flex items-center rounded-md bg-yellow-800/10 px-2 py-1 text-md font-medium text-yellow-800 inset-ring inset-ring-yellow-800/20 mb-3">Trajet passé</span>
+            )}
+
+            <h1 className="text-xl font-bold">{trip.departure!.city.name} → {trip.arrival!.city.name} </h1>
+            <h2>Conducteur : <span className="bold">{trip.driver.firstname} {trip.driver.lastname}</span></h2>
+            <p>Départ : {formattedTripDate}</p>
+            <p>Distance : {trip.length == 0 ? "non renseignée" : trip.length + " km"}</p>
+            <p>Réservé le : {formattedBookingDate}</p>
+            <div className={"mt-3"}>{children}</div>
+        </div>
     )
+
 }

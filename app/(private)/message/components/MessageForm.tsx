@@ -18,7 +18,7 @@ export default function MessageForm({ to, from }: Readonly<{ to: string, from: s
                 <input type={"hidden"} name={"recipientId"} value={to}/>
                 <InputGroup label={"Sujet du message"} name={"subject"} id={"subject"} type={"text"} placeholder={"Sujet du message"} />
                 <MessageBodyInput label={"Message"} name={"message"} id={"message"} placeholder={"Votre message"} rows={8}/>
-                <div className={"mt-3"}>
+                <div className={"mt-4"}>
                     <Button theme={"dark"} label={"Envoyer"} type={"submit"} />
                 </div>
             </form>
