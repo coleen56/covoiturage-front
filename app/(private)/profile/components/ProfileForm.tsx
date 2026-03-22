@@ -100,7 +100,10 @@ export default function ProfileForm({user} : Readonly<{ user: User }>) {
             <ConfirmationModal
                 isOpen={isModalOpen}
                 onConfirm={async () => {
-                    await deleteUser()
+                    const res = await deleteUser()
+                    if("success" in res) {
+                        await logoutAction()
+                    }
                     setIsModalOpen(false)
                 }}
                 onCancel={() => setIsModalOpen(false)}

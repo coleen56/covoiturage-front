@@ -80,7 +80,6 @@ export async function deleteUser() {
     try {
         if(currentUserId) {
             await softDeleteUser(currentUserId)
-            await logoutAction()
         }
         return { success : "Votre compte a bien été supprimé."}
     } catch (error) {
