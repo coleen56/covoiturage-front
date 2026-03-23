@@ -2,15 +2,15 @@ import PageTitle from "@/components/ui/layout/PageTitle";
 import Main from "@/components/ui/layout/Main";
 import {Metadata} from "next";
 import TripTabs from "@/app/(private)/home/components/TripTabs";
-import getTripsByRole from "@/app/(private)/home/actions";
 import {isBookingArray, isTripArray} from "@/types/guards";
+import {getUserTripsAsDriver, getUserTripsAsPassenger} from "@/app/(private)/home/actions";
 
 export const metadata: Metadata = { title: 'Accueil' }
 
 export default async function HomePage() {
     const [driverTrips, passengerTrips] = await Promise.all([
-        getTripsByRole('driver'),
-        getTripsByRole('passenger'),
+        getUserTripsAsDriver(),
+        getUserTripsAsPassenger(),
     ])
     return (
         <Main>
