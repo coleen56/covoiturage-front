@@ -1,9 +1,8 @@
 import {Booking} from "@/types/carpool";
 import {ReactNode} from "react";
-import {getTrip} from "@/app/(private)/my-bookings/actions";
 
 export default async function BookingCard( { booking, children }: Readonly<{booking: Booking, children: ReactNode}>) {
-    const trip = await getTrip(booking.trip.id);
+    const trip = booking.trip
     const tripDate = new Date(booking.trip.departureDatetime)
 
     const formattedTripDate = tripDate.toLocaleString('fr-FR', {

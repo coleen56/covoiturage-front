@@ -1,10 +1,15 @@
 'use server'
 
-import {getTripsAsPassenger} from "@/lib/carpool";
+import {getTripsAsDriver, getTripsAsPassenger} from "@/lib/carpool";
 
-export default async function getUserTrips() {
+export default async function getTripsByRole(role: "driver" | "passenger") {
     try {
-        return await getTripsAsPassenger();
+        if(role === "driver") {
+            return await getTripsAsDriver();
+        }
+        if(role === "passenger") {
+            return await getTripsAsPassenger();
+        }
     } catch (e) {
         return { error: e instanceof Error ? e.message : "Une erreur est survenue."}
     }
