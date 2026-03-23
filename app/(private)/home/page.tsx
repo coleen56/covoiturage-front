@@ -12,6 +12,7 @@ export default async function HomePage() {
         getUserTripsAsDriver(),
         getUserTripsAsPassenger(),
     ])
+
     return (
         <Main>
             <PageTitle>

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Button from "@/components/ui/form-controls/Button";
 import {useActionState, useEffect} from "react";
 import {useRouter} from "next/navigation";
@@ -24,7 +23,7 @@ export default function PassengerFormButtons({booking, onStateChange}: Readonly<
             <input type={"hidden"} name={"passengerId"} value={booking.passenger.id}/>
             <input type={"hidden"} name={"bookingId"} value={booking.id}/>
             <div className={"flex flex-row justify-between w-100"}>
-                <Link href={"/my-bookings"}><Button theme={"dark"} label={"Retour"} type={"button"} /></Link>
+                <Button theme={"dark"} label={"Retour"} type={"button"} onClick={() => router.back()}/>
                 {!actionBlocked && (
                     <Button theme={"danger"} label={"Annuler ma réservation"} type={"submit"} />
                 )}

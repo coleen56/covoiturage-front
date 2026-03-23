@@ -21,6 +21,7 @@ export default function TripList(props: Readonly<TripListProps>) {
             // on garde uniquement les trajets pas encore passés, pas annulés et réservation pas annulée non plus
             .filter(booking => new Date(booking.trip.departureDatetime) > new Date())
             .filter(booking => !booking.trip.isCancelled && !booking.isCancelled)
+            .sort((a, b) => new Date(a.trip.departureDatetime).getTime() - new Date(b.trip.departureDatetime).getTime())
 
         if (incomingBookings.length > 0) {
             return (
@@ -51,6 +52,7 @@ export default function TripList(props: Readonly<TripListProps>) {
             // on garde uniquement les trajets pas encore passés, pas annulés et réservation pas annulée non plus
             .filter(trip => new Date(trip.departureDatetime) > new Date())
             .filter(trip => !trip.isCancelled)
+            .sort((a, b) => new Date(a.departureDatetime).getTime() - new Date(b.departureDatetime).getTime())
 
         if (incomingTrips.length > 0) {
             return (

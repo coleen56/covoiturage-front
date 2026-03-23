@@ -102,7 +102,7 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
             <div className={"mt-5"}>
                 {/*    form pour user ni passager ni driver */}
                 {!isDriver && !isPassenger && (
-                    <BookingFormButtons tripId={trip.id} driverId={trip.driver.id} onStateChange={setBookingState} onGoBackClick={() => router.back()}/>
+                    <BookingFormButtons tripId={trip.id} driverId={trip.driver.id} onStateChange={setBookingState}/>
                 )}
                 {/*form pour driver*/}
                 {isDriver && (

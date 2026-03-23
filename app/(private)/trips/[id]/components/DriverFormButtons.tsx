@@ -27,7 +27,7 @@ export default function DriverFormButtons({ driverId, tripId, onStateChange, act
             <input type={"hidden"} name={"driverId"} value={driverId}/>
             <input type={"hidden"} name={"tripId"} value={tripId}/>
             <div className={"flex flex-row justify-between w-100"}>
-                <Link href={"/my-trips"}><Button theme={"dark"} label={"Retour"} type={"button"} /></Link>
+                <Button theme={"dark"} label={"Retour"} type={"button"} onClick={() => router.back()}/>
                 {!actionBlocked && (
                     <Button theme={"danger"} label={"Annuler le trajet"} type={"submit"} />
                 )}

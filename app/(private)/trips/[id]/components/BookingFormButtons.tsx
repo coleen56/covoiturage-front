@@ -5,7 +5,7 @@ import {ActionState} from "@/app/(auth)/login/actions";
 import {bookTrip} from "@/app/(private)/trips/[id]/actions";
 import {useRouter} from "next/navigation";
 
-export default function BookingFormButtons({ tripId, driverId, onStateChange, onGoBackClick }: Readonly<{ tripId: number, driverId: number, onStateChange: (success: { error: string; } | { success: string; }) => void , onGoBackClick: () => void}>) {
+export default function BookingFormButtons({ tripId, driverId, onStateChange}: Readonly<{ tripId: number, driverId: number, onStateChange: (success: { error: string; } | { success: string; }) => void}>) {
     const [state, bookTripAction] = useActionState<ActionState, FormData>(bookTrip, null)
 
     const router = useRouter();
@@ -23,7 +23,7 @@ export default function BookingFormButtons({ tripId, driverId, onStateChange, on
         <form action={bookTripAction}>
             <input type="hidden" name="tripId" value={tripId} />
             <div className={"flex flex-row justify-between w-100"}>
-                <Button theme={"danger"} label={"Annuler"} type={"button"} onClick={() => onGoBackClick()}/>
+                <Button theme={"danger"} label={"Annuler"} type={"button"} onClick={() => router.back()}/>
                 <Link href={`/message?to=${driverId}`}><Button theme={"light"} label={"Message"} type={"button"} /></Link>
                 <Button theme={"dark"} label={"Confirmer"} type={"submit"} />
             </div>
