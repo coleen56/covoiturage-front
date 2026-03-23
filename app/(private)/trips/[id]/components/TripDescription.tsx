@@ -43,9 +43,9 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
 
             <div className={"bg-gray-200 w-100 rounded-lg p-4 mt-5"}>
                 <div className={"flex flex-row items-center justify-between gap-2 mb-2"}>
+                    <h1 className={"font-bold underline underline-offset-4 mb-2"}>Conducteur : {trip.driver.firstname + ' ' + trip.driver.lastname}</h1>
+
                     {!isDriver && (
-                    <>
-                        <h1 className={"font-bold underline underline-offset-4 mb-2"}>Conducteur : {trip.driver.firstname + ' ' + trip.driver.lastname}</h1>
                         <div className={"flex flex-row gap-2"}>
                             <Link href={`/message?to=${trip.driver.id}`} className={"text-3xl bg-black rounded-md shadow-lg"}>
                                 <Mail className={"m-2 text-white"} />
@@ -54,7 +54,6 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
                                 <Phone className={"m-2 text-black"} />
                             </Link>
                         </div>
-                    </>
                 )}
                 </div>
                 <p>Date et heure de départ : {formattedDate}</p>

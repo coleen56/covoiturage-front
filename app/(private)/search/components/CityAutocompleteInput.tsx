@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {City} from "@/types/carpool";
-import {getCities} from "@/components/ui/actions";
 import {inputDivStyle, inputLabelStyle, inputStyle, suggestionItemStyle, suggestionsContainerStyle} from "@/lib/styles";
+import {getCities} from "@/app/(private)/search/actions";
 
 interface CityInputProps {
     name: string;

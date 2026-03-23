@@ -25,7 +25,7 @@ export default function TripList(props: Readonly<TripListProps>) {
         if (incomingBookings.length > 0) {
             return (
                 <>
-                    <h1 className="mb-3 text-xl">Vos trajets à venir :</h1>
+                    <h1 className="mb-3 text-xl">Vos réservations à venir :</h1>
                     <ul className={"mt-4 flex flex-col gap-3"}>
                         {incomingBookings
                             .map(booking =>
@@ -50,7 +50,7 @@ export default function TripList(props: Readonly<TripListProps>) {
         const incomingTrips = trips
             // on garde uniquement les trajets pas encore passés, pas annulés et réservation pas annulée non plus
             .filter(trip => new Date(trip.departureDatetime) > new Date())
-            .filter(trip => trip.isCancelled)
+            .filter(trip => !trip.isCancelled)
 
         if (incomingTrips.length > 0) {
             return (
@@ -60,7 +60,7 @@ export default function TripList(props: Readonly<TripListProps>) {
                         {incomingTrips
                             .map(trip =>
                                 <TripCard key={trip.id} trip={trip}>
-                                    <Link href={`/trips/${trip.id}`} className={"flex flex-row justify-center items-center"}><Button theme={"dark"} label={"Détails"} type={"button"} /></Link>
+                                    <Link href={`/trips/${trip.id}`} className={"flex flex-row justify-center items-center mt-3"}><Button theme={"dark"} label={"Détails"} type={"button"} /></Link>
                                 </TripCard>
                             )}
                     </ul>

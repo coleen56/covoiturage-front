@@ -1,5 +1,3 @@
-
-
 import {fetchApi} from './api'
 import {ApiResponse, AuthCredentials, AuthResponse, RegisterResponse} from '@/types/auth'
 import {cookies} from 'next/headers'

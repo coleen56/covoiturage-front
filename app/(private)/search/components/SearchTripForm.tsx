@@ -2,7 +2,7 @@
 
 import InputGroup from "@/components/ui/form-controls/InputGroup";
 import React, {startTransition, useState} from "react";
-import CityAutocompleteInput from "@/components/ui/form-controls/CityAutocompleteInput";
+import CityAutocompleteInput from "@/app/(private)/search/components/CityAutocompleteInput";
 import {TripFormData} from "@/app/(private)/search/actions";
 import Button from "@/components/ui/form-controls/Button";
 import Loader from "@/components/ui/form-controls/Loader";

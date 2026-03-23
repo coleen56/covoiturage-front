@@ -1,5 +1,6 @@
 'use server'
 
+import {getCitiesByName} from "@/lib/carpool";
 import {searchForTrips} from "@/lib/carpool";
 import {Trip} from "@/types/carpool";
 
@@ -21,4 +22,8 @@ export async function getTripsFromFormData(data: TripFormData) {
     } catch (error) {
         return { error: error instanceof Error ? error.message : 'Une erreur est survenue' }
     }
+}
+
+export async function getCities(query:string) {
+    return await getCitiesByName(query);
 }
