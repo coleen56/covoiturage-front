@@ -1,7 +1,7 @@
 import {Booking} from "@/types/carpool";
 import {ReactNode} from "react";
 
-export default async function BookingCard( { booking, children }: Readonly<{booking: Booking, children: ReactNode}>) {
+export default function BookingCard( { booking, children }: Readonly<{booking: Booking, children: ReactNode}>) {
     const trip = booking.trip
     const tripDate = new Date(booking.trip.departureDatetime)
 
