@@ -14,7 +14,7 @@ interface CarApi {
 }
 
 interface CityApi {
-    code: string
+    codesPostaux: string[]
     nom: string
     _score?: number
 }
@@ -104,13 +104,13 @@ export async function updateCar(car: CarApi): Promise<ApiResponse> {
 }
 
 export async function getCitiesByName(query: string): Promise<City[]> {
-    const results = await fetchApi<CityApi[]>(`nom=${query}&fields=code,nom&limit=5`, {
+    const results = await fetchApi<CityApi[]>(`nom=${query}&fields=codesPostaux,nom&limit=5`, {
         method: 'GET',
     }, CITY_API_URL)
 
     return results.map((city: CityApi) => ({
         name: city.nom,
-        zipCode: city.code,
+        zipCode: city.codesPostaux[0],
     }))
 }
 

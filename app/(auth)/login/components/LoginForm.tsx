@@ -4,8 +4,6 @@ import { Metadata } from 'next'
 import Link from "next/link";
 import {useActionState} from "react";
 import { loginAction, ActionState } from "../actions";
-import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
-import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
 import Button from "@/components/ui/form-controls/Button";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
 import InputGroup from "@/components/ui/form-controls/InputGroup";

@@ -2,8 +2,6 @@
 
 import { registerAction } from "../actions";
 import {useActionState} from "react";
-import ErrorAlert from "@/components/ui/alerts/ErrorAlert";
-import SuccessAlert from "@/components/ui/alerts/SuccessAlert";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
 import AuthContainer from "@/components/ui/display/AuthContainer";
 import InputGroup from "@/components/ui/form-controls/InputGroup";

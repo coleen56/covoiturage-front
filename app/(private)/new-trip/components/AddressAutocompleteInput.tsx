@@ -48,17 +48,16 @@ export default function AddressAutocompleteInput(props: Readonly<AddressInputPro
             {suggestions.length > 0 && (
                 <ul className={suggestionsContainerStyle}>
                     {suggestions.map(a => (
-                        <li
-                            key={a.id ?? a.city.name + a.streetname + a.number}
+                        <button key={a.id ?? a.city.name + a.streetname + a.number}
                             onClick={() => {
-                                isSelecting.current = true
-                                props.onSelect(a.number, a.streetname, a.city.zipCode, a.city.name, a.lat, a.lon)
-                                setQuery(`${a.number ?? ''} ${a.streetname} ${a.city.zipCode} ${a.city.name}`)
-                                setSuggestions([])
-                            }}
-                            className={suggestionItemStyle}
-                        >{`${a.number ?? ''} ${a.streetname} ${a.city.zipCode} ${a.city.name}`}
+                            isSelecting.current = true
+                            props.onSelect(a.number, a.streetname, a.city.zipCode, a.city.name, a.lat, a.lon)
+                            setQuery(`${a.number ?? ''} ${a.streetname} ${a.city.zipCode} ${a.city.name}`)
+                            setSuggestions([])
+                        }}>
+                            <li className={suggestionItemStyle}>{`${a.number ?? ''} ${a.streetname} ${a.city.zipCode} ${a.city.name}`}
                         </li>
+                        </button>
                     ))}
                 </ul>
             )}

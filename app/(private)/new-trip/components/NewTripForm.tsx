@@ -45,7 +45,7 @@ export default function NewTripForm() {
         seats: ""
     })
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         startTransition(() => dispatch(formData));
     }
@@ -101,7 +101,6 @@ export default function NewTripForm() {
                 <InputGroup label={"Distance"} value={formData.length.toString()} name={"length"} id={"length"} type={"number"} placeholder={"23"} onChange={handleChange} >
                     <div className={"mr-2"}><Button theme={"dark"} label={isCalculating ? "..." : "Calculer"} type={"button"}  onClick={async () => {
                         // appel api pour calculer la distance du trajet
-                        console.log("clicked")
                         if(formData.startingAddress.lon && formData.startingAddress.lat && formData.arrivalAddress.lon && formData.arrivalAddress.lat) {
                             setIsCalculating(true);
                             const res = await calculateTripLength(formData.startingAddress.lon,formData.startingAddress.lat, formData.arrivalAddress.lon,formData.arrivalAddress.lat)

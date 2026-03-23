@@ -31,7 +31,7 @@ export default function CityAutocompleteInput(props: Readonly<CityInputProps>) {
         getCities(query).then(setSuggestions)
     }, [query])
     return (
-        <div className="mt-2 w-full">
+        <div className="mt-2 w-full relative">
             <label htmlFor={props.name} className={inputLabelStyle}>{props.label}</label>
             <div className={`${inputDivStyle} bg-gray-200 text-black`}>
                 <input
@@ -50,17 +50,14 @@ export default function CityAutocompleteInput(props: Readonly<CityInputProps>) {
             {suggestions.length > 0 && (
                 <ul className={suggestionsContainerStyle}>
                     {suggestions.map(c => (
-                        <li
-                            key={c.id ?? c.zipCode}
-                            onClick={() => {
-                                isSelecting.current = true
-                                props.onSelect(c.name)
-                                setQuery(c.name)
-                                setSuggestions([])
-                            }}
-                            className={suggestionItemStyle}
-                        >{c.name} ({c.zipCode})
-                        </li>
+                        <button key={c.id ?? c.zipCode} onClick={() => {
+                            isSelecting.current = true
+                            props.onSelect(c.name)
+                            setQuery(c.name)
+                            setSuggestions([])
+                        }}>
+                            <li className={suggestionItemStyle}>{c.name} ({c.zipCode})</li>
+                        </button>
                     ))}
                 </ul>
             )}
