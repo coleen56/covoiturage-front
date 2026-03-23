@@ -5,7 +5,7 @@ import SearchTripForm from "./SearchTripForm"
 import ResultsList from "./ResultsList"
 import {ActionResult, getTripsFromFormData, TripFormData} from "../actions"
 
-export default function SearchContainer() {
+export default function SearchContainer({currentUserId}: Readonly<{ currentUserId: number | null }>) {
     const [state, dispatch, isPending] = useActionState<ActionResult, TripFormData>(
         async (_, data) => await getTripsFromFormData(data),
         null
@@ -14,7 +14,7 @@ export default function SearchContainer() {
     return (
         <>
             <SearchTripForm dispatch={dispatch} isPending={isPending} />
-            <ResultsList state={state} />
+            <ResultsList state={state} currentUserId={currentUserId} />
         </>
     )
 }
