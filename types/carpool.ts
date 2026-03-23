@@ -29,6 +29,9 @@ export interface Profile {
     firstname: string | null
     lastname: string | null
     phone: string | null
+    registrationDatetime?: string | null
+    accountStatus?: string | null
+    car?: Car | null
 }
 
 export interface Trip {

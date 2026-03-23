@@ -42,7 +42,21 @@ export default function TripDescription({trip, isDriver, isPassenger, userBookin
             <StateAlerts state={cancelBookingState} />
 
             <div className={"bg-gray-200 w-100 rounded-lg p-4 mt-5"}>
-                <h1>Conducteur : {trip.driver.firstname + ' ' + trip.driver.lastname}</h1>
+                <div className={"flex flex-row items-center justify-between gap-2 mb-2"}>
+                    {!isDriver && (
+                    <>
+                        <h1 className={"font-bold underline underline-offset-4 mb-2"}>Conducteur : {trip.driver.firstname + ' ' + trip.driver.lastname}</h1>
+                        <div className={"flex flex-row gap-2"}>
+                            <Link href={`/message?to=${trip.driver.id}`} className={"text-3xl bg-black rounded-md shadow-lg"}>
+                                <Mail className={"m-2 text-white"} />
+                            </Link>
+                            <Link href={`tel:${trip.driver.id}`} className={"text-3xl bg-white rounded-md shadow-lg"}>
+                                <Phone className={"m-2 text-black"} />
+                            </Link>
+                        </div>
+                    </>
+                )}
+                </div>
                 <p>Date et heure de départ : {formattedDate}</p>
                 <p>De : {trip.departure?.number} {trip.departure?.streetname}, {trip.departure?.city.zipCode} {trip.departure?.city.name}</p>
                 <p>A : {trip.arrival?.number} {trip.arrival?.streetname}, {trip.arrival?.city.zipCode} {trip.arrival?.city.name}</p>

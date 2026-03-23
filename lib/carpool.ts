@@ -202,3 +202,16 @@ export async function softDeleteUser(id: number): Promise<ApiResponse> {
         method: 'DELETE'
     });
 }
+
+export async function findUserProfileById(id: string): Promise<Profile> {
+    const res = await fetchApi<Profile>(`/api/persons/${id}`, {
+        method: 'GET',
+    })
+    return {
+        id: res.id,
+        email: res.email,
+        firstname: res.firstname,
+        lastname: res.lastname,
+        phone: res.phone
+    }
+}
