@@ -8,10 +8,11 @@ import InputGroup from "@/components/ui/form-controls/InputGroup";
 import Button from "@/components/ui/form-controls/Button";
 import FormLink from "@/components/ui/form-controls/FormLink";
 import AuthForm from "@/components/ui/form-controls/AuthForm";
+import Loader from "@/components/ui/form-controls/Loader";
 
 
 export default function RegisterForm() {
-    const [state, formAction] = useActionState(registerAction, null)
+    const [state, formAction, isPending] = useActionState(registerAction, null)
 
     return (
         <AuthContainer title={"Créer un compte"}>
@@ -25,6 +26,7 @@ export default function RegisterForm() {
                     <Button theme={"dark"} label={"Créer mon compte"} type={"submit"} />
                     <FormLink href={"/login"} text={"Déjà inscrit ? Connexion"} />
                 </div>
+                {isPending && <Loader />}
             </AuthForm>
         </AuthContainer>
     )

@@ -1,3 +1,5 @@
+import React from "react";
+
 interface ButtonProps {
     theme : "dark" | "light" | "danger",
     label : string,

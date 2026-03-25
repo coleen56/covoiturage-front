@@ -1,7 +1,6 @@
 'use server'
 
-import {getCitiesByName} from "@/lib/carpool";
-import {searchForTrips} from "@/lib/carpool";
+import {getCitiesByName, searchForTrips} from "@/lib/carpool";
 import {Trip} from "@/types/carpool";
 
 export type TripFormData = {

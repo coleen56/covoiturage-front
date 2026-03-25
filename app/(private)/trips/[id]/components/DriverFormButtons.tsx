@@ -1,5 +1,4 @@
 import Button from "@/components/ui/form-controls/Button";
-import Link from "next/link";
 import {useActionState, useEffect} from "react";
 import {cancelTripAction} from "@/app/(private)/trips/[id]/actions";
 import {useRouter} from "next/navigation";

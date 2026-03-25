@@ -3,7 +3,6 @@
 import {Manufacturer, Profile, User} from "@/types/carpool";
 import {auth, getUserProfile} from "@/lib/auth";
 import {createCar, getCarManufacturer, saveProfile, softDeleteUser, updateCar} from "@/lib/carpool";
-import logoutAction from "@/app/(auth)/(logout)/actions";
 
 export type UserFormData = {
     email: string

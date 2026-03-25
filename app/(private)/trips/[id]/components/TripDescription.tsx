@@ -9,11 +9,9 @@ import DriverFormButtons from "@/app/(private)/trips/[id]/components/DriverFormB
 import PassengerFormButtons from "@/app/(private)/trips/[id]/components/PassengerFormButtons";
 import Link from "next/link";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
-import {useRouter} from "next/navigation";
 import {Mail, Phone} from "lucide-react";
 
 export default function TripDescription({trip, isDriver, isPassenger, userBooking, currentUserId}: Readonly<{ trip: Trip, isDriver: boolean, isPassenger: boolean, userBooking?: Booking, currentUserId: number|null }>) {
-    const router = useRouter();
     const [cancelState, setCancelState] = useState<ActionState>(null);
     const [bookingState, setBookingState] = useState<ActionState>(null);
     const [cancelTripState, setCancelTripState] = useState<ActionState>(null);

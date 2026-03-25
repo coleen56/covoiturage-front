@@ -12,7 +12,7 @@ export interface Manufacturer {
     name?: string
 }
 
-export interface User extends Profile{
+export interface User {
     id: number
     email: string
     firstname: string | null
@@ -23,16 +23,7 @@ export interface User extends Profile{
     car: Car
 }
 
-export interface Profile {
-    id: number
-    email: string
-    firstname: string | null
-    lastname: string | null
-    phone: string | null
-    registrationDatetime?: string | null
-    accountStatus?: string | null
-    car?: Car | null
-}
+export type Profile = Pick<User, 'id' | 'email' | 'firstname' | 'lastname' | 'phone'>
 
 export interface Trip {
     id: number

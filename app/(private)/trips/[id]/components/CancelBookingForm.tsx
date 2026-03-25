@@ -1,4 +1,5 @@
 'use client'
+
 import React, {useActionState, useEffect} from "react";
 import { deleteBooking } from "../actions";
 import {Booking, Trip} from "@/types/carpool";
