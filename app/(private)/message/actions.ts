@@ -8,11 +8,14 @@ export type ActionState = { error: string } | { success: string } | null
 type ProfileResult = | { success: true; data: Profile }
     | { success: false; error: string }
 
-export async function sendMessage(prevState: ActionState, formData: FormData): Promise<ActionState> {
+export async function sendMessage(_prevState: ActionState, formData: FormData): Promise<ActionState> {
     const recipientId = formData.get('recipientId') as string;
     const senderId = formData.get('senderId') as string;
     const subject = formData.get('subject') as string;
     const message = formData.get('message') as string;
+    if(!message || !subject) {
+        return { error : "Veuillez remplir tous les champs."}
+    }
     try {
         await sendEmail(recipientId, senderId, subject, message);
         return { success: "Votre message a bien été envoyé." }

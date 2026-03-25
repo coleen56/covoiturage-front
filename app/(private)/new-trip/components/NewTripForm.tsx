@@ -1,6 +1,6 @@
 'use client'
 
-import React, {startTransition, useActionState, useState} from "react";
+import React, {startTransition, useActionState, useEffect, useState} from "react";
 import AddressAutocompleteInput from "@/app/(private)/new-trip/components/AddressAutocompleteInput";
 import InputGroup from "@/components/ui/form-controls/InputGroup";
 import Link from "next/link";
@@ -9,13 +9,29 @@ import {ActionResult} from "next/dist/shared/lib/app-router-types";
 import {calculateTripLength, saveNewTrip} from "@/app/(private)/new-trip/actions";
 import StateAlerts from "@/components/ui/alerts/StateAlerts";
 import Loader from "@/components/ui/form-controls/Loader";
+import {useRouter} from "next/navigation";
 
 export default function NewTripForm() {
     const [state, dispatch, isPending] = useActionState<ActionResult, typeof formData>(
         async (_, data) => await saveNewTrip(data),
         null
     )
+    const router = useRouter();
     const [isCalculating, setIsCalculating] = useState(false);
+
+    // hook pour rediriger l'utilisateur vers la page de ses trajets si l'ajout réussit
+    useEffect(() => {
+        // si state existe et l'opération reussit
+        if (state?.success) {
+            // 2 sec de timeout pour voir le message de succès
+            const timer = setTimeout(() => {
+                router.push('/my-trips');
+                router.refresh();
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [state, router]);
 
     const [formData, setFormData] = useState({
         fullStartingAddress: "",
@@ -53,8 +69,6 @@ export default function NewTripForm() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
-
-
 
     return (
         <>
